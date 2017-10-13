@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load widget_tweaks %}
+
+<!-- IMPORTS CUSTOM -->
+{% block imports_custom %}
+    {% include "imports_pageCenter_css.html" %}
+{% endblock %}
+
+<!-- LOAD CUSTOM - BLANK = NONE -->
+{% block load %}
+{% endblock %}
+
+<!-- BEGIN BLOCK BODY -->
+{% block body %}
+
+    <div id="login-page" class="row">
+        <div class="col s12 z-depth-4 card-panel">
+
+                  <!-- Corrigir Class do erros-->
+
+            <form class="login-form" method="POST">
+                {% csrf_token %}
+
+                <div class="row">
+
+                  <div class="input-field col s12">
+                    {% render_field form.username class="validate valid" %}
+                    <label for="{{form.username.auto_id}}" class="active">{{form.username.label}}</label>
+                  </div>
+                  {% for error in form.username.errors %}
+                    <p class="card-panel red col s12">O campo de {{error}}</p>
+                  {% endfor %}
+                </div>
+
+                <div class="row">
+                  <div class="input-field col s12">
+                    <!--<i class="mdi-action-bookmark prefix active"></i>-->
+                    {% render_field form.name class="validate valid" %}
+                    <label for="{{form.name.auto_id}}" class="active">{{form.name.label}}</label>
+                  </div>
+                  {% for error in form.name.errors %}
+                    <p class="card-panel red col s12"> {{error}}</p>
+                  {% endfor %}
+                </div>
+
+                <div class="row">
+                  <div class="input-field col s12">
+                    <!--<i class="mdi-action-bookmark prefix active"></i>-->
+                    {% render_field form.email class="validate valid" %}
+                    <label for="{{form.email.auto_id}}" class="active">{{form.email.label}}</label>
+                  </div>
+                  {% for error in form.email.errors %}
+                      <p class="card-panel red col s12"> {{error}}</p>
+                  {% endfor %}
+                </div>
+
+                <div class="row">
+                  <div class="input-field col s12">
+                    <!--<i class="mdi-action-bookmark prefix active"></i>-->
+                    {% render_field form.phone class="validate valid" %}
+                    <label for="{{form.phone.auto_id}}" class="active">{{form.phone.label}}</label>
+                  </div>
+                  {% for error in form.phone.errors %}
+                      <p class="card-panel red col s12"> {{error}}</p>
+                  {% endfor %}
+                </div>
+
+                <div class="row">
+                  <div class="input-field col s12">
+                    <!--<i class="mdi-action-bookmark prefix active"></i>-->
+                    {% render_field form.password1 class="validate valid" %}
+                    <label for="{{form.password1.auto_id}}" class="active">{{form.password1.label}}</label>
+                  </div>
+                  {% for error in form.password1.errors %}
+                      <p class="card-panel red col s12"> {{error}}</p>
+                  {% endfor %}
+                </div>
+
+                <div class="row">
+                  <div class="input-field col s12">
+                    <!--<i class="mdi-action-bookmark prefix active"></i>-->
+                    {% render_field form.password2 class="validate valid" %}
+                    <label for="{{form.password2.auto_id}}" class="active">{{form.password2.label}}</label>
+                  </div>
+                  {% for error in form.password2.errors %}
+                      <p class="card-panel red col s12"> {{error}}</p>
+                  {% endfor %}
+                </div>
+
+                <button class="btn cyan waves-effect waves-light right" type="submit" name="action">Avançar
+                  <i class="mdi-content-send right"></i>
+                </button>
+            </form>
+
+
+        </div>
+    </div>
+
+{% endblock %}

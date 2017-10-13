@@ -1,0 +1,96 @@
+{% extends "nav.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+
+<!--start container-->
+<div class="container">
+  <div class="row">
+    <div class="col s12 m12 l12">
+      <div id="profile-card" class="card">
+
+        <div class="card-image waves-effect waves-block waves-light">
+            <img src="{% static 'images/user-bg.jpg' %}" alt="user bg">
+        </div>
+
+        <div class="card-content">
+          <img src="{% static 'images/avatar.jpg' %}" alt="" class="circle responsive-img card-profile-image">
+<!--Inicio Status Modal -->
+          <a class="btn-floating modal-trigger btn-move-up waves-effect waves-light darken-2 right
+            {% if user.status == 0 %} green {% elif user.status == 1 %} yellow {% else %} red {% endif %}"
+            href="#changeStatus">
+            {% if user.status == 0 %}
+            <i class="mdi-action-done-all"></i>
+            {% elif user.status == 1 %}
+            <i class="mdi-communication-dnd-on"></i>
+            {% else %}
+            <i class="mdi-action-https"></i>
+            {% endif %}
+          </a>
+          <div id="changeStatus" class="modal" style="display: none; opacity: 1; top: 0px;">
+            <div class="modal-content">
+              <p>Modifique o status do Usuario</p>
+            </div>
+            <div class="modal-footer teal lighten-5">
+              <a href="#" class="waves-effect waves-red btn-flat modal-action modal-close">Cancelar</a>
+              <a href="{% url 'accounts:active' user.pk %}" class="btn-flat green waves-effect waves-light">Ativado</a>
+              <a href="{% url 'accounts:disable' user.pk %}" class="btn-flat yellow waves-effect waves-light">Desativado</a>
+              <a href="{% url 'accounts:block' user.pk %}" class="btn-flat red waves-effect waves-light">Bloqueado</a>
+            </div>
+          </div>
+<!--Fim Status Modal -->
+
+<!--Inicio Nivel Modal -->
+          <a class="btn-floating modal-trigger btn-move-up waves-effect waves-light darken-2 right
+            {% if user.nivel == 0 %} black {% elif user.nivel == 1 %} yellow  {% elif user.nivel == 2 %} blue {% else %} green {% endif %}"
+            href="#changeNivel">
+            {% if user.nivel == 1 %}
+            <i class="mdi-hardware-gamepad"></i>
+            {% elif user.nivel == 2 %}
+            <i class="mdi-action-autorenew"></i>
+            {% elif user.nivel == 3 %}
+            <i class="mdi-action-account-circle"></i>
+            {% else %}
+            <i class="mdi-action-android"></i>
+            {% endif %}
+          </a>
+          <div id="changeNivel" class="modal" style="display: none; opacity: 1; top: 0px;">
+            <div class="modal-content">
+              <p>Modifique o Nivel do usuário</p>
+            </div>
+            <div class="modal-footer teal lighten-5">
+              <a href="#" class="waves-effect waves-red btn-flat modal-action modal-close">Cancelar</a>
+              <a href="{% url 'accounts:adm' user.pk %}" class="btn-flat yellow waves-effect waves-light">Administrador</a>
+              <a href="{% url 'accounts:salesman' user.pk %}" class="btn-flat blue waves-effect waves-light">Vendedor</a>
+              <a href="{% url 'accounts:customer' user.pk %}" class="btn-flat green waves-effect waves-light">Cliente</a>
+            </div>
+          </div>
+<!--Fim Nivel Modal -->
+          <p>{{user}}</p>
+          <p><i class="mdi-action-perm-identity"></i> {{user.username}}</p>
+          <p><i class="mdi-action-perm-phone-msg"></i> {{user.phone}}</p>
+          <p><i class="mdi-communication-email"></i> {{user.email}}</p>
+
+        </div>
+       </div>
+     </div>
+    <div class="center col s12 m12 l12">
+      <h5>Lista de Endereços do Usuário</h5>
+    </div>
+
+    <div class="col s12 m12 l12">
+      <div class="row">
+        {% for add in address %}
+          <div class="col s12 m6 l6">
+            <div class="card">
+              <p><i class="mdi-maps-navigation"></i> Rua:  {{add.street}}   Nº {{add.number}}</p>
+              <p><i class="mdi-maps-pin-drop"></i> Bairo:  {{add.neighborhood}}</p>
+              <p><i class="mdi-maps-map"></i> Cidade: {{add.city}}, Estado:  {{add.state}}</p>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
