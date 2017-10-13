@@ -74,8 +74,8 @@
         <li>
           <a href="#"><i class="mdi-action-shopping-basket"></i> Estoque</a>
         </li>
-        <li>
-          <a href="#"><i class="mdi-action-shopping-basket"></i> Categoriass</a>
+        <li class="bold {% if request.resolver_match.url_name == 'list_categories' %} active {% endif %}">
+          <a href="{% url 'categories:list_categories'%}"><i class="mdi-notification-event-note"></i> Categoriass</a>
         </li>
       </ul>
     </aside>

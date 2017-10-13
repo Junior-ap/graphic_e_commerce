@@ -9,8 +9,8 @@ from .forms import UserCreationForm
 
 
 class CreateSalesmanView(CreateView):
-    form_class = UserCreationForm
     model = User
+    form_class = UserCreationForm
     template_name = 'signup.html'
     success_url = reverse_lazy('accounts:login')
 

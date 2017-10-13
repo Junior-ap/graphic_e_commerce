@@ -1,0 +1,46 @@
+{% extends "nav.html" %}
+{% block content %}
+
+{% load widget_tweaks %}
+
+<section id="content">
+ <div class="container">
+  <div class="row">
+    <div class="input-field col s12 m4 offset-m12 l6 offset-l3">
+      <div class="card-panel">
+        <div class="row">
+        <form method="POST" class="col s12">
+          {% csrf_token %}
+              <div class="row">
+                <div class="input-field col s12 m12 l12">
+                  <i class="mdi-notification-event-note prefix"></i>
+                  {% render_field form.name class="validate" %}
+                  <label for="{{form.name.auto_id}}" class="active">{{form.name.label}}</label>
+                    {% for error in form.username.errors %}
+                      <p class="card-panel red col s12 m4 offset-m4 l4 offset-l4">{{error}}</p>
+                    {% endfor %}
+                </div>
+              </div>
+              <div class="row">
+                <div class="input-field col s12 m12 l12 ">
+                  <i class="mdi-editor-mode-edit prefix"></i>
+                  {% render_field form.description class="materialize-textarea" %}
+                  <label for="{{form.description.auto_id}}" class="active">{{form.description.label}}</label>
+                    {% for error in form.description.errors %}
+                        <p class="card-panel red col s12 m4 offset-m4 l4 offset-l4">{{error}}</p>
+                    {% endfor %}
+                </div>
+              </div>
+          <button class="btn cyan waves-effect waves-light right" type="submit" name="action">Salvar
+            <i class="mdi-content-send right"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+ </div>
+</div>
+</section>
+<!-- END CONTENT -->
+
+{% endblock  %}

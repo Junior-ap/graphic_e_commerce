@@ -1,15 +1,11 @@
 {% extends "nav.html" %}
 {% load static %}
 {% block content %}
-
     <!-- START CONTENT -->
     <section id="content">
-
         <!--start container-->
         <div class="container">
-
             <div class="row">
-
                 <div class="col s12 m12 l12">
                   <div class="right">
                     <a class="dropdown-button btn blue lighten-1" href='#' data-activates='dropdown1'>Filtrar</a>
@@ -23,9 +19,7 @@
                 </div>
 
                 <div class="col s12 m12 l12">
-
                     <div class="collection">
-
                         {% for u in users %}
                             <a href="{% url 'accounts:detail' u.pk %}" class="collection-item avatar">
                                 <img src="{% static 'images/avatar.jpg' %}" alt="" class="circle">
@@ -43,9 +37,7 @@
                                 </p>
                             </a>
                         {% endfor %}
-
                     </div>
-
                 </div>
 
                 <div class="col s12 m12 l12">
@@ -54,30 +46,16 @@
                         <li class="disabled"><a href="?page={{page_obj.previous_page_number}}"><i class="mdi-navigation-chevron-left"></i></a></li>
                       {% endif %}
                       {% for page in paginator.page_range %}
-                        <li class="active"><a href="?page={{page}}">{{page}}</a></li>
+                        <li class="{% if page == page_obj.number %} active {% endif %}"><a href="?page={{page}}">{{page}}</a></li>
                       {% endfor %}
                       {% if page_obj.has_next %}
                         <li class="waves-effect"><a href="?page={{page_obj.next_page_number}}"><i class="mdi-navigation-chevron-right"></i></a></li>
                       {% endif %}
                     </ul>
                 </div>
-
             </div>
-
-
-
-
-
         </div>
         <!--end container-->
     </section>
     <!-- END CONTENT -->
-
 {% endblock  %}
-
-
-{% block scripts %}
-    <script>
-
-    </script>
-{% endblock %}
