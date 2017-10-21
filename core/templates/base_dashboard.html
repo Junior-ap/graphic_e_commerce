@@ -1,0 +1,26 @@
+{% extends "imports_dashboard.html" %}
+
+{% load static %}
+
+
+{% block body %}
+
+<div class="page home-page">
+
+  {% include "nav_dashboard.html" %}
+
+  <div class="page-content d-flex align-items-stretch">
+    {% include "sidebar.html" %}
+
+    <div class="content-inner">
+
+    {% block content %}
+
+    {% endblock  %}
+
+    {% include "footer.html" %}
+
+    </div>
+  </div>
+</div>
+{% endblock  %}

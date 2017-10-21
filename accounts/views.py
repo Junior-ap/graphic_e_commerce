@@ -17,8 +17,8 @@ class CreateSalesmanView(CreateView):
 class ListUserView(ListView):
     model = User
     context_object_name = 'users'
-    template_name = 'list_users.html'
-    paginate_by = 20
+    template_name = 'list_users_dashboard.html'
+    paginate_by = 12
 
     def get_queryset(self):
         filtro = self.request.GET.get('filtro')
@@ -50,7 +50,7 @@ class ProfileView(DetailView):
         return self.request.user
 
 class DetailUserView(TemplateView):
-    template_name = 'detail_user.html'
+    template_name = 'detail_user_dashboard.html'
 
     def get_context_data(self, **kwargs):
         context = super(DetailUserView, self).get_context_data(**kwargs)
@@ -67,7 +67,7 @@ class ChangeStatusUserView(View):
         user = get_object_or_404(User, pk=pk)
         user.status = self.status
         user.save()
-        return redirect(reverse_lazy('accounts:detail', kwargs={'pk':user.pk}))
+        return redirect(reverse_lazy('accounts:detail_user', kwargs={'pk':user.pk}))
 
 class ChangeNivelUserView(View):
     nivel = 3
@@ -75,7 +75,7 @@ class ChangeNivelUserView(View):
         user = get_object_or_404(User, pk=pk)
         user.nivel = self.nivel
         user.save()
-        return redirect(reverse_lazy('accounts:detail', kwargs={'pk':user.pk}))
+        return redirect(reverse_lazy('accounts:detail_user', kwargs={'pk':user.pk}))
 
 
 create_user = CreateSalesmanView.as_view()

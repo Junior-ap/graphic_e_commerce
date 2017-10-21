@@ -1,44 +1,45 @@
-{% extends "nav.html" %}
-{% block content %}
+{% extends "base_dashboard.html" %}
 
-<!-- START CONTENT -->
-<section id="content">
-    <!--start container-->
-    <div class="container">
-        <div class="row">
-            <div class="col s12 m12 l12">
-              <div class="right">
-                <a class="btn blue lighten-1" href="{% url 'categories:new_category'%}">Nova Categoria</a>
-            </div>
-            <div class="col s12 m12 l12">
-                  <div class="row">
-                    {% for category in categories %}
-                      <div class="col s12 m6 l6">
-                        <div class="card">
-                          <a href="{% url 'categories:detail_category' category.pk %}">
-                            <div class="card-content">
-                              <span class="card-title blue-text">{{category}}</span>
-                            </div>
-                          </a>
-                        </div>
-                      </div>
-                    {% endfor %}
-                </div>
-            </div>
-            <div class="col s12 m12 l12">
-                <ul class="pagination">
-                  {% if page_obj.has_previous %}
-                    <li class="disabled"><a href="?page={{page_obj.previous_page_number}}"><i class="mdi-navigation-chevron-left"></i></a></li>
-                  {% endif %}
-                  {% for page in paginator.page_range %}
-                    <li class="{% if page == page_obj.number %} active {% endif %}"><a href="?page={{page}}">{{page}}</a></li>
-                  {% endfor %}
-                  {% if page_obj.has_next %}
-                    <li class="waves-effect"><a href="?page={{page_obj.next_page_number}}"><i class="mdi-navigation-chevron-right"></i></a></li>
-                  {% endif %}
-                </ul>
-            </div>
-        </div>
+{% block content %}
+<div class="page-header">
+  <div class="row">
+    <div class="col-lg-4">
+      <h3>Lista de Categorias</h3>
     </div>
+    <div class="col-lg-2 offset-lg-6">
+      <a href="{% url 'categories:new_category' %}" class="btn btn-primary">Nova Categoria</a>
+    </div>
+  </div>
+
+</div>
+<section class="client">
+  <div class="container-fluid">
+    <div class="row">
+      {% for category in categories %}
+        <div class="col-lg-3">
+          <div class="client card">
+            <a href="{% url 'categories:detail_category' category.pk %}">
+              <div class="card-body text-center">
+                <h4 class="card-title blue-text">{{category}}</h4>
+              </div>
+            </a>
+          </div>
+        </div>
+      {% endfor %}
+      <div class="col-lg-12">
+        <ul class="pagination">
+          {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page={{page_obj.previous_page_number}}">Anterior</a></li>
+          {% endif %}
+          {% for page in paginator.page_range %}
+            <li class="page-item {% if page == page_obj.number %} active {% endif %}"><a class="page-link" href="?page={{page}}">{{page}}</a></li>
+          {% endfor %}
+         {% if page_obj.has_next %}
+           <li class="page-item"><a class="page-link" href="?page={{page_obj.next_page_number}}">Proxima</a></li>
+         {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
 </section>
 {% endblock  %}

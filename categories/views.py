@@ -16,7 +16,7 @@ class ListCategoryView(ListView):
     model = Category
     context_object_name = 'categories'
     template_name = 'list_category.html'
-    paginate_by = 10
+    paginate_by = 12
 
 class DetailCategoryView(DetailView):
     model = Category
