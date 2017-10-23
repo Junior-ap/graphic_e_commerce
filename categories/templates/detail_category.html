@@ -13,7 +13,7 @@
               <div class="form-group">
                 <label for="{{form.name.auto_id}}" class="form-control-label">{{form.name.label}}</label>
                 {% render_field form.name class="form-control" %}
-                  {% for error in form.username.errors %}
+                  {% for error in form.name.errors %}
                     <p class="card-panel red col s12 m4 offset-m4 l4 offset-l4">{{error}}</p>
                   {% endfor %}
               </div>

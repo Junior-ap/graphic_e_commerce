@@ -29,7 +29,7 @@
       <a href="{% url 'accounts:list_user' %}"><i class="icon icon-user"></i>Usuarios</a>
     </li>
     <li>
-      <a href="#"> <i class="icon icon-padnote"></i>Estoque </a>
+      <a href="{% url 'products:list_product' %}"> <i class="icon icon-padnote"></i>Estoque </a>
     </li>
     <li class="{% if request.resolver_match.url_name == 'list_categories' %} active {% endif %}">
       <a href="{% url 'categories:list_categories'%}"> <i class="icon icon-list"></i>Categoriass</a>

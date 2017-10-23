@@ -1,0 +1,81 @@
+{% extends "base_dashboard.html" %}
+{% load static %}
+{% load widget_tweaks %}
+
+{% block content %}
+<section class="client">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-6">
+      <div class="client card">
+        <div class="card-body text-center">
+            As imagens ficar para depois
+         </div>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="client card">
+          <div class="card-body text-center">
+            <form method="POST">
+                {% csrf_token %}
+              <div class="form-group">
+                <label for="{{form.name.auto_id}}" class="form-control-label">{{form.name.label}}</label>
+                {% render_field form.name class="form-control" %}
+                  {% for error in form.username.errors %}
+                    <p class="card-panel red col s12 m4 offset-m4 l4 offset-l4">{{error}}</p>
+                  {% endfor %}
+              </div>
+              <div class="form-group">
+                <label for="{{form.size.auto_id}}" class="form-control-label">{{form.size.label}}</label>
+                {% render_field form.size class="form-control" %}
+                  {% for error in form.size.errors %}
+                    <p class="card-panel red col s12 m4 offset-m4 l4 offset-l4">{{error}}</p>
+                  {% endfor %}
+              </div>
+              <div class="form-group">
+                <label for="{{form.amount.auto_id}}" class="form-control-label">{{form.amount.label}}</label>
+                {% render_field form.amount class="form-control" %}
+                  {% for error in form.amount.errors %}
+                    <p class="card-panel red col s12 m4 offset-m4 l4 offset-l4">{{error}}</p>
+                  {% endfor %}
+              </div>
+              <div class="form-group">
+                <label for="{{form.acquiredValue.auto_id}}" class="form-control-label">{{form.acquiredValue.label}}</label>
+                {% render_field form.acquiredValue class="form-control" %}
+                  {% for error in form.acquiredValue.errors %}
+                    <p class="card-panel red col s12 m4 offset-m4 l4 offset-l4">{{error}}</p>
+                  {% endfor %}
+              </div>
+              <div class="form-group">
+                <label for="{{form.saleValue.auto_id}}" class="form-control-label">{{form.saleValue.label}}</label>
+                {% render_field form.saleValue class="form-control" %}
+                  {% for error in form.saleValue.errors %}
+                    <p class="card-panel red col s12 m4 offset-m4 l4 offset-l4">{{error}}</p>
+                  {% endfor %}
+              </div>
+              <div class="form-group">
+                <label for="{{form.category.auto_id}}" class="form-control-label">{{form.category.label}}</label>
+                {% render_field form.category class="form-control" %}
+                  {% for error in form.category.errors %}
+                    <p class="card-panel red col s12 m4 offset-m4 l4 offset-l4">{{error}}</p>
+                  {% endfor %}
+              </div>
+              <div class="form-group">
+                <label for="{{form.description.auto_id}}" class="form-control-label">{{form.description.label}}</label>
+                {% render_field form.description class="form-control" %}
+                  {% for error in form.description.errors %}
+                    <p class="card-panel red col s12 m4 offset-m4 l4 offset-l4">{{error}}</p>
+                  {% endfor %}
+              </div>
+              <div class="form-group">
+                <input type="submit" value="Salvar" class="btn btn-primary">
+              </div>
+            </form>
+          </div>
+       </div>
+      </div>
+   </div>
+ </div>
+</section>
+{% endblock %}

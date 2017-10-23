@@ -14,7 +14,7 @@ class CreateSalesmanView(CreateView):
     template_name = 'signup.html'
     success_url = reverse_lazy('accounts:login')
 
-class ListUserView(ListView):
+class ListUserView(LoginRequiredMixin,ListView):
     model = User
     context_object_name = 'users'
     template_name = 'list_users_dashboard.html'
@@ -36,7 +36,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'dashboard.html'
 
 
-class ProfileView(DetailView):
+class ProfileView(LoginRequiredMixin, DetailView):
     model = User
     context_object_name = 'user_request'
     template_name = 'profile.html'
@@ -45,11 +45,10 @@ class ProfileView(DetailView):
         context = super(ProfileView, self).get_context_data(**kwargs)
         context['form'] = UserUpdateForm(self.request.POST or None, instance=context['user_request'])
         return context
-
     def get_object(self):
         return self.request.user
 
-class DetailUserView(TemplateView):
+class DetailUserView(LoginRequiredMixin, TemplateView):
     template_name = 'detail_user_dashboard.html'
 
     def get_context_data(self, **kwargs):
@@ -61,7 +60,7 @@ class DetailUserView(TemplateView):
         context['address'] = Address.objects.filter(pk=pk)
         return context
 
-class ChangeStatusUserView(View):
+class ChangeStatusUserView(LoginRequiredMixin, View):
     status = 0
     def get(self, request, pk):
         user = get_object_or_404(User, pk=pk)
@@ -69,7 +68,7 @@ class ChangeStatusUserView(View):
         user.save()
         return redirect(reverse_lazy('accounts:detail_user', kwargs={'pk':user.pk}))
 
-class ChangeNivelUserView(View):
+class ChangeNivelUserView(LoginRequiredMixin, View):
     nivel = 3
     def get(self, request, pk):
         user = get_object_or_404(User, pk=pk)

@@ -1,0 +1,51 @@
+{% extends "base_dashboard.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+<section class="client">
+  <div class="container-fluid">
+    <div class="row justify-content-md-center">
+      <div class="col-lg-6 bg-white">
+        <div class="form">
+          <div class="content">
+            <form method="POST">
+               {% csrf_token %}
+              <div class="form-group">
+                <label for="{{form.name.auto_id}}" >{{form.name.label}}</label>
+                {% render_field form.name  class='form-control' placeholder='Nome do Produto' %}
+              </div>
+              <div class="form-group">
+                <label for="{{form.size.auto_id}}" >{{form.size.label}}</label>
+                {% render_field form.size  class='form-control' placeholder='Tamanho do Produto' %}
+              </div>
+              <div class="form-group">
+                <label for="{{form.amount.auto_id}}" >{{form.amount.label}}</label>
+                {% render_field form.amount  class='form-control' placeholder='Quantidade em Estoque' %}
+              </div>
+              <div class="form-group">
+                <label for="{{form.saleValue.auto_id}}" >{{form.saleValue.label}}</label>
+                {% render_field form.saleValue  class='form-control' placeholder='Valor de venda do Produto' %}
+              </div>
+              <div class="form-group">
+                <label for="{{form.acquiredValue.auto_id}}" >{{form.acquiredValue.label}}</label>
+                {% render_field form.acquiredValue  class='form-control' placeholder='Valor de venda do Produto' %}
+              </div>
+              <div class="form-group">
+                <label for="{{form.category.auto_id}}" >{{form.category.label}}</label>
+                {% render_field form.category  class='form-control' %}
+              </div>
+              <div class="form-group">
+                <label for="{{form.description.auto_id}}" >{{form.description.label}}</label>
+                {% render_field form.description  class='form-control' placeholder='Descrição do Produto' %}
+              </div>
+              <div class="form-group">
+                <input type="submit" value="Salvar Produto" class="btn btn-primary">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock  %}
