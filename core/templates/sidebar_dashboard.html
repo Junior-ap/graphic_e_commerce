@@ -1,0 +1,39 @@
+{% load static %}
+
+<nav class="side-navbar">
+  <!-- Sidebar Header-->
+
+  <div class="sidebar-header d-flex align-items-center">
+    <div class="avatar"><img src="#" alt="..." class="img-fluid rounded-circle"></div>
+    <div class="title">
+      <h1 class="h4">{{user}}</h1>
+      {% if user.nivel == 1 or user.nivel == 0 %}
+        Administrador
+      {% endif %}
+      {% if user.nivel == 2 %}
+        Vendedor
+      {% endif %}
+      {% if user.nivel == 3 %}
+        Cliente
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Sidebar Navidation Menus-->
+  <span class="heading">Main</span>
+  <ul class="list-unstyled">
+    <li class="{% if request.resolver_match.url_name == 'dashboard' %} active {% endif %}">
+      <a href="{% url 'accounts:dashboard' %}"><i class="icon-home"></i>Dashboard</a>
+    </li>
+    <li class="{% if request.resolver_match.url_name == 'list_user' %} active {% endif %}">
+      <a href="{% url 'accounts:list_user' %}"><i class="icon icon-user"></i>Usuarios</a>
+    </li>
+    <li>
+      <a href="{% url 'products:list_product' %}"> <i class="icon icon-padnote"></i>Estoque </a>
+    </li>
+    <li class="{% if request.resolver_match.url_name == 'list_categories' %} active {% endif %}">
+      <a href="{% url 'categories:list_categories'%}"> <i class="icon icon-list"></i>Categoriass</a>
+    </li>
+  </ul>
+
+</nav>

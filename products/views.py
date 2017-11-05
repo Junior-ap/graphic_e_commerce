@@ -33,16 +33,25 @@ class ListProductView(LoginRequiredMixin, ListView):
             queryset = Product.objects.all()
         return queryset
 
-class DetailProductView(TemplateView):
+class DetailProductView(DetailView):
+    model = Product
+    context_object_name = 'product'
     template_name = 'detail_product_dashboard.html'
 
     def get_context_data(self, **kwargs):
         context = super(DetailProductView, self).get_context_data(**kwargs)
-        pk = kwargs['pk']
-        product = get_object_or_404(Product, pk=pk)
-        context['product'] = product
-        context['form'] = ProductCreationForm(self.request.POST or None, instance=product)
+        context['form'] = ProductCreationForm(self.request.POST or None, instance=context['product'])
+        context['pk'] = self.kwargs['pk']
         return context
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        context = self.get_context_data(object=self.object)
+        form = context['form']
+        if form.is_valid():
+            form.save()
+        return redirect(reverse_lazy('products:detail_product', kwargs={'pk':self.get_object().pk}))
+
 
 
 create_product_view = CreateProductView.as_view()

@@ -19,11 +19,8 @@ class CreateAdressView(TemplateView):
         context = self.get_context_data(**kwargs)
         form = context['form']
         if form.is_valid():
-
             user = self.request.user
             form.user = user.pk
-            print(user)
-            print(form)
             form.save()
             return redirect(reverse_lazy('accounts:login'))
         return redirect(reverse_lazy('address:new'))
