@@ -5,13 +5,13 @@ from products.models import Product
 class Order(models.Model):
     SHOPPING = 0
     FINISHED = 1
-    PREPARING = 2
+    FACTORY = 2
     DELIVERED = 3
     STATUS= (
         (SHOPPING, 'comprando'),
         (FINISHED, 'finalizada'),
-        (PREPARING, 'preparando'),
-        (DELIVERED, 'entrege'),
+        (FACTORY, 'fabricar'),
+        (DELIVERED, 'entregue'),
     )
     name = models.CharField('Cliente', max_length= 150, null=True)
     valueTotal = models.FloatField('Valor Total', null=True, default=0)

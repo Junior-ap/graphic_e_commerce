@@ -3,6 +3,6 @@ from .models import Cart, Order
 
 class OrderCreationdeForm(forms.ModelForm):
     class Meta:
-        fildes = ['dateEnd']
+        model = Order
+        fields = ['name']
 
-        

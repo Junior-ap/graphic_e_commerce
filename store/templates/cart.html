@@ -4,7 +4,7 @@
 <div class="page-header">
   <div class="row">
     <div class="col-lg-4">
-      <a href="{% url 'products:new_product' %}" class="btn btn-primary">Novo Produto</a>
+      <h1>Carinho de Compra</h1>
     </div>
   </div>
 </div>
@@ -19,16 +19,16 @@
             </div>
             <div class="col-lg-4">
                 <div class="text"><small>Quantidade</small><br>
-                  <a href="#" class="btn"><h3>-</h3></a>
-                  <input type="text" value="{{c.amounts}}" size="2">
-                  <a href="#" class="btn"><h3>+</h3></a>
+                  {% if c.amounts > 1  %}<a href="{% url 'store:subitrair_item' c.pk %}" class="btn"><h3>-</h3></a> {% endif %}
+                  <input type="text" value="{{c.amounts}}" size="2" disabled>
+                  <a href="{% url 'store:somar_item' c.pk %}" class="btn"><h3>+</h3></a>
                 </div>
             </div>
             <div class="col-lg-3">
                 <div class="text"><small>Valor Unitario</small><br><strong>R$ {{c.value}}</strong></div>
             </div>
             <div class="col-lg-2">
-                <a href="#" class="btn">Excluir</a>
+                <a href="{% url 'store:delete_item' c.pk %}" class="btn">Excluir</a>
             </div>
           </div>
         {% endfor %}
@@ -43,7 +43,7 @@
               <div class="text"><h3>Valor da Compra R$ {{ord.valueTotal}}</h3></div>
             </div>
             <div class="statistic col-lg-12">
-              <a href="#" class="btn btn-danger">Finalizar Comprar</a>
+              <a href="{% url 'store:finalizar' ord.pk %}" class="btn btn-danger">Finalizar Comprar</a>
             </div>
           </div>
         </div>
