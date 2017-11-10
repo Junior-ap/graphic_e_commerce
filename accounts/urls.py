@@ -7,12 +7,11 @@ urlpatterns = [
     url(r'^login/$', login, {'template_name': 'login.html'}, name='login'),
     url(r'^logout/$', logout, {'next_page':'accounts:login'}, name='logout'),
     #Usuario_Session
-    url(r'^profile/$', views.profile, name='profile'),
-    url(r'^dashboard/$', views.dashboard, name='dashboard'),
+    url(r'^profile/(?P<pk>\d+)$', views.profile, name='profile'),
     #Usuarios_Plataforma
     url(r'^novo-usuario/$', views.create_user, name='new_user'),
     url(r'^lista-usuarios/$', views.list_user, name='list_user'),
-    url(r'^detalhar-usuario/(?P<pk>\d+)$', views.detail_user, name='detail_user'),
+    url(r'^detalhar-usuario/(?P<pk>\d+)/cadastrado$', views.detail_user_taxed, name='detail_user_cadastrado'),
     #Status_User
     url(r'^status/(?P<pk>\d+)/active', views.active, name='active'),
     url(r'^status/(?P<pk>\d+)/disable', views.disable, name='disable'),

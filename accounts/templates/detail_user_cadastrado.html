@@ -1,0 +1,82 @@
+{% extends "base_dashboard.html" %}
+{% load static %}
+{% block content %}
+
+<section class="client">
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-8 offset-2">
+      <div class="client card">
+        <div class="card-close">
+         <div class="dropdown">
+          <button type="button" id="closeCard" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-ellipsis-v"></i></button>
+            <div aria-labelledby="closeCard" class="dropdown-menu has-shadow">
+              <a href="#" class="dropdown-item edit" data-toggle="modal" data-target="#nivelModal"><i class="fa fa-gamepad" aria-hidden="true"></i>Mudar Nivil</a>
+              <a href="#" class="dropdown-item edit" data-toggle="modal" data-target="#statusModal"><i class="fa fa-exchange" aria-hidden="true"></i>Mudar Status</a>
+            </div>
+          </div>
+         </div>
+        <div class="card-body text-center">
+          <div class="client-avatar"><img src="{% static 'images/avatar.jpg'' %}" alt="..." class="img-fluid rounded-circle"></div>
+          <div class="client-title">
+            <h3>{{user_taxed}}</h3><span>
+              {% if user_taxed.nivel == 1 or user_taxed.nivel == 0 %}Administrador{% endif %}
+              {% if user_taxed.nivel == 2 %}Vendedor{% endif %}
+              {% if user_taxed.nivel == 3 %}Cliente{% endif %}</span>
+          </div>
+            <div class="client-info">
+              <div class="row">
+                <div class="col-4"><strong>{{user_taxed.phone}}</strong><br><small>Telefone</small></div>
+                <div class="col-4"><strong>{{user_taxed.email}}</strong><br><small>Email</small></div>
+                <div class="col-4"><strong>
+                {% if user_taxed.status == 0 %}Ativado{% endif %}
+                {% if user_taxed.status == 1 %}Desativado{% endif %}
+                {% if user_taxed.status == 2 %}Bloqueado{% endif %}
+              </strong><br><small>Status</small></div>
+              </div>
+            </div>
+          </div>
+       </div>
+    </div>
+  </div>
+</div>
+</section>
+<div class="text-center">
+  <div class="row">
+    <div class="col-lg-6 offset-lg-3">
+      <div class="statistic bg-white has-shadow">
+        <h2>Lista de Endereços do Usuário</h2>
+    </div>
+  </div>
+</div>
+</div>
+<section class="client">
+<div class="container-fluid">
+  <div class="row">
+      <div class="statistics col-lg-12 ">
+          {% for add in address %}
+          <div class="row statistic d-flex align-items-center bg-white has-shadow">
+            <div class="col-lg-4">
+                <div class="text"><small>Rua</small><br><strong>{{add.street}}</strong></div>
+            </div>
+            <div class="col-lg-2">
+                  <div class="text"><small>Nº</small><br><strong>{{add.number}}</strong></div>
+            </div>
+            <div class="col-lg-3">
+                  <div class="text"><small>Bairo</small><br><strong>{{add.neighborhood}}</strong></div>
+            </div>
+            <div class="col-lg-2">
+                <div class="text"><small>Cidade</small><br><strong>{{add.city}}</strong></div>
+            </div>
+            <div class="col-lg-1">
+                <div class="text"><small>Estado</small><br><strong>{{add.state}}</strong></div>
+            </div>
+          </div>
+          {% endfor %}
+      </div>
+  </div>
+</div>
+</section>
+{% include "modais/modal_nivel.html" %}
+{% include "modais/modal_status.html" %}
+{% endblock %}

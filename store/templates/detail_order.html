@@ -12,12 +12,18 @@
                  <form method="POST">
                     {% csrf_token %}
                   <div class="form-group">
+                    {% if not ord.name %}
                     <label for="{{form.name.auto_id}}" class="form-control-label">{{form.name.label}}</label>
                     {% render_field form.name class="form-control" %}
+                    {% else %}
+                    <small>Cliente que Comprou</small><h3 class="h4">{{ord.name}}</h3>
+                    {% endif %}
                   </div>
+                  {% if not ord.name %}
                    <div class="form-group">
                     <input type="submit" value="Salvar" class="btn btn-primary">
-                  </div>
+                   </div>
+                   {% endif %}
                   <div class="text">
                       <small>Usuario que Comprou</small><h3 class="h4">{{ord.user}}</h3>
                   </div>

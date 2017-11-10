@@ -1,7 +1,13 @@
-dj-database-url==0.4.2
-dj-static==0.0.6
 Django==1.11.1
+django-widget-tweaks==1.4.1
+dj-database-url==0.4.2
+virtualenv==15.1.0
+cloudinary==1.8.0
+dj-static==0.0.6
+mock==2.0.0
+pbr==3.0.1
 python-decouple==3.0
 pytz==2017.2
+six==1.10.0
 static3==0.7.0
-virtualenv==15.1.0
+urllib3==1.21.1
