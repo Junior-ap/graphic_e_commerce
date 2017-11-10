@@ -1,24 +1,26 @@
 from django.shortcuts import redirect, get_object_or_404
-from django.views.generic import ListView, CreateView, DetailView, View
-
 from django.core.urlresolvers import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import ListView, CreateView, DetailView, View
 
 from .models import Category
 from .forms import CreateCategoryForm
 
-class CreateCategoryView(CreateView):
+from accounts.polices import IsRootOrAdm
+
+class CreateCategoryView(LoginRequiredMixin, IsRootOrAdm, CreateView):
     model = Category
     form_class = CreateCategoryForm
     template_name = 'new_category.html'
     success_url = reverse_lazy('categories:list_categories')
 
-class ListCategoryView(ListView):
+class ListCategoryView(LoginRequiredMixin, IsRootOrAdm, ListView):
     model = Category
     context_object_name = 'categories'
     template_name = 'list_category.html'
     paginate_by = 12
 
-class DetailCategoryView(DetailView):
+class DetailCategoryView(LoginRequiredMixin, IsRootOrAdm, DetailView):
     model = Category
     form_class = CreateCategoryForm
     context_object_name = 'category'

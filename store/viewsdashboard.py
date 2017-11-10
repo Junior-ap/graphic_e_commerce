@@ -1,13 +1,18 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import TemplateView, CreateView, View, ListView, DetailView
 from django.core.urlresolvers import reverse_lazy
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import TemplateView, CreateView, View, ListView, DetailView
+
 from datetime import date
+
 from .models import  Order, Cart
-from products.models import Product
 from .forms import OrderCreationdeForm
 
+from products.models import Product
+from accounts.polices import IsSalesMan
 
-class DashboardView(ListView):
+
+class DashboardView(LoginRequiredMixin, IsSalesMan, ListView):
     model = Order
     context_object_name = 'order'
     template_name = 'dashboard.html'
@@ -26,7 +31,7 @@ class DashboardView(ListView):
             queryset = Order.objects.filter(status=2)
         return queryset
 
-class AddCartItemView(View):
+class AddCartItemView(LoginRequiredMixin, IsSalesMan, View):
 
     def get(self, request, pk):
         us = self.request.user
@@ -50,7 +55,7 @@ class AddCartItemView(View):
                 ordem.save()
         return redirect(reverse_lazy('store:list_cart'))
 
-class ListCartItemView(ListView):
+class ListCartItemView(LoginRequiredMixin, IsSalesMan, ListView):
     model = Cart
     context_object_name = 'itens_cart'
     template_name = 'cart.html'
@@ -72,7 +77,7 @@ class ListCartItemView(ListView):
         queryset = Cart.objects.filter(order=ordem.pk)
         return queryset
 
-class DeleteCartItemView(View):
+class DeleteCartItemView(LoginRequiredMixin, IsSalesMan, View):
 
     def get(self, request, pk):
         us = self.request.user
@@ -83,7 +88,7 @@ class DeleteCartItemView(View):
         item.delete()
         return redirect(reverse_lazy('store:list_cart'))
 
-class SumCartItemView(View):
+class SumCartItemView(LoginRequiredMixin, IsSalesMan, View):
 
     def get(self, request, pk):
         us = self.request.user
@@ -95,7 +100,7 @@ class SumCartItemView(View):
         item.save()
         return redirect(reverse_lazy('store:list_cart'))
 
-class SubtractCartItemView(View):
+class SubtractCartItemView(LoginRequiredMixin, IsSalesMan, View):
 
     def get(self, request, pk):
         us = self.request.user
@@ -107,7 +112,7 @@ class SubtractCartItemView(View):
         item.save()
         return redirect(reverse_lazy('store:list_cart'))
 
-class FinalizeOrderView(View):
+class FinalizeOrderView(LoginRequiredMixin, IsSalesMan, View):
 
     def get(self, request, pk):
         ordem = Order.objects.get(pk=pk)
@@ -117,16 +122,15 @@ class FinalizeOrderView(View):
         ordem.save()
         return redirect(reverse_lazy('store:dashboard'))
 
-class ChangeStatusOrderView(View):
+class ChangeStatusOrderView(LoginRequiredMixin, IsSalesMan, View):
     status = 2
     def get(self, request, pk):
         ordem = get_object_or_404(Order, pk=pk)
         ordem.status = self.status
-        print (self.status)
         ordem.save()
         return redirect(reverse_lazy('store:detail_order', kwargs={'pk':ordem.pk}))
 
-class DetailOrderView(DetailView):
+class DetailOrderView(LoginRequiredMixin, IsSalesMan, DetailView):
     model = Order
     context_object_name = 'order'
     template_name = 'detail_order.html'
