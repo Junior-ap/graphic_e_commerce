@@ -1,6 +1,5 @@
 {% extends "base_dashboard.html" %}
 {% load static %}
-{% load widget_tweaks %}
 
 {% block content %}
 <div class="page-header">
@@ -10,80 +9,57 @@
     </div>
   </div>
 </div>
+
 <section class="client">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-lg-6">
-      <div class="client card">
-        <div class="card-body text-center">
-            As imagens ficar para depois
-         </div>
-        </div>
-      </div>
 
-      <div class="col-lg-6">
+      <div class="col-lg-10 offset-1">
         <div class="client card">
+          {% if user.nivel == 1 or user.nivel == 0 %}
+          <div class="card-close">
+           <div class="dropdown">
+            <button type="button" id="closeCard" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-ellipsis-v"></i></button>
+              <div aria-labelledby="closeCard" class="dropdown-menu has-shadow">
+                <a href="#" class="dropdown-item edit" data-toggle="modal" data-target="#productModal">
+                  <i class="fa fa-cog" aria-hidden="true"></i>Editar Produtor</a>
+              </div>
+            </div>
+           </div>
+          {% endif %}
           <div class="card-body text-center">
-            <form method="POST">
-                {% csrf_token %}
-              <div class="form-group">
-                <label for="{{form.name.auto_id}}" class="form-control-label">{{form.name.label}}</label>
-                {% render_field form.name class="form-control" %}
-                  {% for error in form.username.errors %}
-                    <p class="card-panel red col s12 m4 offset-m4 l4 offset-l4">{{error}}</p>
-                  {% endfor %}
-              </div>
 
-              <div class="form-group">
-                <label for="{{form.size.auto_id}}" class="form-control-label">{{form.size.label}}</label>
-                {% render_field form.size class="form-control" %}
-                  {% for error in form.size.errors %}
-                    <p class="card-panel red col s12 m4 offset-m4 l4 offset-l4">{{error}}</p>
-                  {% endfor %}
+              <img src="{% static 'images/caneca.png'' %}" alt="..." class="img-fluid" width="304" height="236">
+
+            <div class="client-title">
+              <h3>{{product}}</h3>
+            </div>
+              <div class="client-info">
+                <div class="row">
+                  <div class="col-4"><small>Quantidade</small><br><strong>{{product.amount}}</strong></div>
+                  <div class="col-4"><small>Preço</small><br><strong>R$ {{product.saleValue}}</strong></div>
+                  <div class="col-4"><small>Tamanho</small><br><strong>{{product.size}}</strong></div>
+                </div>
               </div>
-              <div class="form-group">
-                <label for="{{form.amount.auto_id}}" class="form-control-label">{{form.amount.label}}</label>
-                {% render_field form.amount class="form-control" %}
-                  {% for error in form.amount.errors %}
-                    <p class="card-panel red col s12 m4 offset-m4 l4 offset-l4">{{error}}</p>
-                  {% endfor %}
+              <div class="client-info">
+              <small>Descrição</small> <br> {{product.description}}
               </div>
-              <div class="form-group">
-                <label for="{{form.acquiredValue.auto_id}}" class="form-control-label">{{form.acquiredValue.label}}</label>
-                {% render_field form.acquiredValue class="form-control" %}
-                  {% for error in form.acquiredValue.errors %}
-                    <p class="card-panel red col s12 m4 offset-m4 l4 offset-l4">{{error}}</p>
-                  {% endfor %}
-              </div>
-              <div class="form-group">
-                <label for="{{form.saleValue.auto_id}}" class="form-control-label">{{form.saleValue.label}}</label>
-                {% render_field form.saleValue class="form-control" %}
-                  {% for error in form.saleValue.errors %}
-                    <p class="card-panel red col s12 m4 offset-m4 l4 offset-l4">{{error}}</p>
-                  {% endfor %}
-              </div>
-              <div class="form-group">
-                <label for="{{form.category.auto_id}}" class="form-control-label">{{form.category.label}}</label>
-                {% render_field form.category class="form-control" %}
-                  {% for error in form.category.errors %}
-                    <p class="card-panel red col s12 m4 offset-m4 l4 offset-l4">{{error}}</p>
-                  {% endfor %}
-              </div>
-              <div class="form-group">
-                <label for="{{form.description.auto_id}}" class="form-control-label">{{form.description.label}}</label>
-                {% render_field form.description class="form-control" %}
-                  {% for error in form.description.errors %}
-                    <p class="card-panel red col s12 m4 offset-m4 l4 offset-l4">{{error}}</p>
-                  {% endfor %}
-              </div>
-              <div class="form-group">
-                <input type="submit" value="Salvar" class="btn btn-primary">
-              </div>
-            </form>
-          </div>
-       </div>
+            </div>
+         </div>
       </div>
    </div>
  </div>
 </section>
+<!-- versão 1.1
+<div class="text-center">
+  <div class="row">
+    <div class="col-lg-6 offset-lg-3">
+      <div class="statistic bg-white has-shadow">
+        <h2>Items de Fabricação</h2>
+    </div>
+  </div>
+</div>
+</div>
+-->
+{% include "modais/modal_form_product.html" %}
 {% endblock %}
