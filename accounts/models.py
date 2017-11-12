@@ -37,6 +37,7 @@ class User(AbstractBaseUser, PermissionsMixin):
             )
         ], help_text='Um nome curto que será usado para identificá-lo de forma única no sistema'
     )
+    avatar = models.CharField('Foto', max_length=350, default='https://res.cloudinary.com/dmpzwgmyh/image/upload/v1510449413/user_defalt_bto43s.png')
     nivel = models.IntegerField('Nível', choices=TYPES, default=CUSTOMER)
     is_staff = models.BooleanField('Equipe', default=False)
     is_active = models.BooleanField('Ativo', default=True)

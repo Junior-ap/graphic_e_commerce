@@ -7,12 +7,13 @@ from datetime import date
 
 from .models import  Order, Cart
 from .forms import OrderCreationdeForm
+from .cart import AddCart
 
 from products.models import Product
 from accounts.polices import IsSalesMan
 
 
-class DashboardView(LoginRequiredMixin, IsSalesMan, ListView):
+class DashboardView(LoginRequiredMixin, IsSalesMan, AddCart,  ListView):
     model = Order
     context_object_name = 'order'
     template_name = 'dashboard.html'
@@ -35,24 +36,21 @@ class AddCartItemView(LoginRequiredMixin, IsSalesMan, View):
 
     def get(self, request, pk):
         us = self.request.user
-        ordem = Order.objects.filter(user=us.pk , status=0)
-        if not ordem:
-            Order.objects.create(user=us)
-            return redirect(reverse_lazy('store:add', kwargs={'pk':pk}))
+        ordem = Order.objects.get(user=us.pk , status=0)
+        prod = get_object_or_404(Product, pk=pk)
+        cart = Cart.objects.filter(product=pk, order= ordem.pk)
+        if not cart:
+            Cart.objects.create(amounts=1, value=prod.saleValue, product=prod, order=ordem)
+            ordem.valueTotal = ordem.valueTotal + prod.saleValue
+            ordem.save()
         else:
-            ordem = Order.objects.get(user=us.pk , status=0)
-            prod = get_object_or_404(Product, pk=pk)
-            cart = Cart.objects.filter(product=pk, order= ordem.pk)
-            if not cart:
-                Cart.objects.create(amounts=1, value=prod.saleValue, product=prod, order=ordem)
-                ordem.valueTotal = ordem.valueTotal + prod.saleValue
-                ordem.save()
-            else:
-                cart_atu = Cart.objects.get(product=us.pk)
-                cart_atu.amounts = cart_atu.amounts + cart_atu.amounts
-                cart_atu.save()
-                ordem.valueTotal = ordem.valueTotal + cart_atu.value
-                ordem.save()
+            cart_atu = Cart.objects.get(product=us.pk)
+            #if cart_atu.amounts > prod.amounts:
+                #return redirect(reverse_lazy('store:list_cart'))
+            cart_atu.amounts = cart_atu.amounts + cart_atu.amounts
+            cart_atu.save()
+            ordem.valueTotal = ordem.valueTotal + cart_atu.value
+            ordem.save()
         return redirect(reverse_lazy('store:list_cart'))
 
 class ListCartItemView(LoginRequiredMixin, IsSalesMan, ListView):
@@ -69,11 +67,7 @@ class ListCartItemView(LoginRequiredMixin, IsSalesMan, ListView):
 
     def get_queryset(self):
         us = self.request.user
-        ordem = Order.objects.filter(user=us.pk , status=0)
-        if not ordem:
-            Order.objects.create(user=us)
-        else:
-            ordem = Order.objects.get(user=us.pk , status=0)
+        ordem = Order.objects.get(user=us.pk , status=0)
         queryset = Cart.objects.filter(order=ordem.pk)
         return queryset
 

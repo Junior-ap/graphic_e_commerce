@@ -17,7 +17,7 @@
           </div>
          </div>
         <div class="card-body text-center">
-          <div class="client-avatar"><img src="{% static 'images/avatar.jpg'' %}" alt="..." class="img-fluid rounded-circle"></div>
+          <div class="client-avatar"><img src="{{user_taxed.avatar}}" alt="..." class="img-fluid rounded-circle"></div>
           <div class="client-title">
             <h3>{{user_taxed}}</h3><span>
               {% if user_taxed.nivel == 1 or user_taxed.nivel == 0 %}Administrador{% endif %}

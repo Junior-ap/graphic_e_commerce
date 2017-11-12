@@ -8,7 +8,17 @@
         </button>
       </div>
       <div class="modal-body">
-          Imagem
+
+        <form method="POST" action="{% url 'accounts:upload' %}" enctype="multipart/form-data" class="form-horizontal">
+            {% csrf_token %}
+            <div class="input-group">
+                <input type="file" name="avatar" class="form-control">
+                <span class="input-group-btn">
+                    <button type="submit" name="button" class="btn btn-success">Atualizar foto</button>
+                </span>
+            </div>
+        </form>
+        
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>

@@ -4,7 +4,7 @@
   <!-- Sidebar Header-->
 
   <div class="sidebar-header d-flex align-items-center">
-    <div class="avatar"><img src="#" alt="..." class="img-fluid rounded-circle"></div>
+    <div class="avatar"><img src="{{user.avatar}}" alt="Avatar" class="img-fluid rounded-circle avatar-profile"></div>
     <div class="title">
       <h1 class="h3"><a href="{% url 'accounts:profile' user.pk %}">{{user}}</a></h1>
       {% if user.nivel == 0 or user.nivel == 1 %}
