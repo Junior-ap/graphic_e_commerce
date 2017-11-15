@@ -5,6 +5,10 @@ from django.views.generic import TemplateView, CreateView, View, ListView, Detai
 
 from datetime import date
 
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
 from .models import  Order, Cart
 from .forms import OrderCreationdeForm
 from .cart import AddCart
@@ -45,8 +49,6 @@ class AddCartItemView(LoginRequiredMixin, IsSalesMan, View):
             ordem.save()
         else:
             cart_atu = Cart.objects.get(product=us.pk)
-            #if cart_atu.amounts > prod.amounts:
-                #return redirect(reverse_lazy('store:list_cart'))
             cart_atu.amounts = cart_atu.amounts + cart_atu.amounts
             cart_atu.save()
             ordem.valueTotal = ordem.valueTotal + cart_atu.value

@@ -1,20 +1,25 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.urlresolvers import reverse_lazy
-from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import TemplateView, CreateView, ListView, DetailView, View
+from django.views.generic import TemplateView, CreateView, ListView, DetailView, View, UpdateView
+
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 
 from categories.models import Category
 from accounts.polices import IsRootOrAdm
+
 from .forms import ProductCreationForm
-from .models import Product
+from .models import Product, GalleryProducts
 
-
+#Metodos de Product
 class CreateProductView(LoginRequiredMixin, IsRootOrAdm, CreateView):
     model = Product
     form_class = ProductCreationForm
     template_name = 'create_products_dashboard.html'
     success_url = reverse_lazy('products:list_product')
+
 
 class ListProductView(LoginRequiredMixin, IsRootOrAdm, ListView):
     model = Product
@@ -43,6 +48,7 @@ class DetailProductView(LoginRequiredMixin, IsRootOrAdm, DetailView):
     def get_context_data(self, **kwargs):
         context = super(DetailProductView, self).get_context_data(**kwargs)
         context['form'] = ProductCreationForm(self.request.POST or None, instance=context['product'])
+        context['gallery'] = GalleryProducts.objects.filter(product=self.kwargs['pk'], status=0)
         context['pk'] = self.kwargs['pk']
         return context
 
@@ -54,8 +60,64 @@ class DetailProductView(LoginRequiredMixin, IsRootOrAdm, DetailView):
             form.save()
         return redirect(reverse_lazy('products:detail_product', kwargs={'pk':self.get_object().pk}))
 
+#Metodos de Gallery Products
+class UploadImg(LoginRequiredMixin, View):
+    model = GalleryProducts
+    template_name = 'detail_product_dashboard.html'
+
+    def post(self, request, *args, **kwargs):
+        product = Product.objects.get(pk=self.kwargs['pk'])
+        filep = self.request.FILES['proImg']
+        contActive = GalleryProducts.objects.filter(product=product.pk, status=0).count()
+        contDesabled = GalleryProducts.objects.filter(product=product.pk, status=1).count()
+        if contDesabled > 0:
+            gallery = GalleryProducts.objects.get(product=product.pk, status=1)
+            filep.name = str(product.name) +'-'+ str(gallery.number)
+            proImg = cloudinary.uploader.upload(filep, folder='Products' ,public_id=filep.name)
+            gallery.img=proImg['secure_url']
+            gallery.status=0
+            gallery.save()
+        else:
+            if contActive > 2:
+                msg = 'Limite de imagens 3'
+                print(msg)
+            else:
+                filep.name = str(product.name) +'-'+ str(contActive + 1)
+                proImg = cloudinary.uploader.upload(filep, folder='Products' ,public_id=filep.name)
+                #if product.imgDefault == 0:
+                    #product.imgDefault=proImg['secure_url']
+                    #product.save()
+                #else:
+                GalleryProducts.objects.create(product=product, status=0, img=proImg['secure_url'], number=contActive + 1)
+        return redirect(reverse_lazy('products:galeria-imagens', kwargs={'pk':product.pk}))
+
+class GalleryProductsView(LoginRequiredMixin, TemplateView):
+    model = GalleryProducts
+    template_name = 'gallery_product_dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(GalleryProductsView, self).get_context_data(**kwargs)
+        context['gallery'] = GalleryProducts.objects.filter(product=self.kwargs['pk'], status=0)
+        context['pk'] = self.kwargs['pk']
+        return context
+
+class GalleryImgDeleteView(LoginRequiredMixin, View):
+
+    def get(self, request, pk):
+        imgProd = GalleryProducts.objects.get(pk=pk)
+        pk = imgProd.product_id
+        imgProd.status=1
+        imgProd.save()
+        return redirect(reverse_lazy('products:galeria-imagens', kwargs={'pk':pk}))
 
 
+
+#Urls de Gallery Products
+gallery_product_view = GalleryProductsView.as_view()
+upload_img_product_view = UploadImg.as_view()
+gallery_img_delete_view = GalleryImgDeleteView.as_view()
+
+#Urls de Product
 create_product_view = CreateProductView.as_view()
 list_product_view = ListProductView.as_view()
 detail_product_view = DetailProductView.as_view()

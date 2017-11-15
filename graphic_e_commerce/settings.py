@@ -134,7 +134,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 cloudinary.config(
-  cloud_name = "dmpzwgmyh",
+  cloud_name = "graphic",
   api_key = "279712523668253",
   api_secret = "A5CPSUpHVR3Vbf5D4vyjwKIszRc"
 )

@@ -9,6 +9,7 @@ class Product(models.Model):
     amount = models.IntegerField('Quantidade')
     saleValue = models.IntegerField('Valor de Venda')
     category = models.ForeignKey(Category, verbose_name="Categoria")
+    imgDefault = models.CharField('Imagem Padrão', max_length=350, default=0)
 
     def __str__(self):
         return self.name
@@ -32,3 +33,17 @@ class FactoryItem(models.Model):
         verbose_name = 'Fabricacao de Produto'
         verbose_name_plural = 'Fabricacao de Produtos'
         ordering = ['name']
+
+
+class GalleryProducts(models.Model):
+
+    ACTIVATED = 0
+    DISABLED = 1
+    STATUS = (
+        (ACTIVATED, 'activated'),
+        (DISABLED, 'disabled'),
+    )
+    product = models.ForeignKey(Product, verbose_name="Produto")
+    status = models.IntegerField('Status', choices=STATUS, default=ACTIVATED)
+    img = models.CharField('Imagem', max_length=350)
+    number = models.IntegerField('Numero')

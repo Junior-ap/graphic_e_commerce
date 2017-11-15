@@ -104,7 +104,7 @@ class UploadImg(LoginRequiredMixin, View):
         user = self.request.user
         filep = self.request.FILES['avatar']
         filep.name = str(user.pk)
-        avatar = cloudinary.uploader.upload(filep, public_id=user.email)
+        avatar = cloudinary.uploader.upload(filep, folder='User' ,public_id=user.email)
         user.avatar = avatar['secure_url']
         user.save()
         return redirect(reverse_lazy('accounts:profile', kwargs={'pk':user.pk}))

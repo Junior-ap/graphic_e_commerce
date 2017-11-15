@@ -29,8 +29,16 @@
         <div class="client card">
 
           <div class="card-body text-center">
-            <div class="client-avatar"><img src="{{u.avatar}}" alt="Avatar" class="img-fluid rounded-circle">
+            <div class="client-avatar"><img src="{{u.avatar}}" alt="Avatar" class="img-fluid rounded-circle avatar-profile">
+              {% if u.status == 0 %}
               <div class="status bg-green"></div>
+              {% endif %}
+              {% if u.status == 1 %}
+              <div class="status bg-yellow"></div>
+              {% endif %}
+              {% if u.status == 2 %}
+              <div class="status bg-red"></div>
+              {% endif %}
             </div>
             <div class="client-title">
               <h3>{{u}}</h3><span>
