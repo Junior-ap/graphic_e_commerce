@@ -1,4 +1,4 @@
-#!/home/junior/MEGA/Projetos/graphic_e_commerce/.venv/bin/python
+#!/home/junior/Documentos/Dev/graphic_e_commerce/.venv/bin/python
 
 import sys
 import getopt

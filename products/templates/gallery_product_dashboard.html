@@ -16,16 +16,19 @@
         <div class="client card">
           <div class="card-body text-center">
             <div class="row">
-
               <div class="col-lg-8 offset-2">
-                <img class="d-block w-100" src="#" height="500px" width="400px" alt="Imagem {{item.number}}">
+                {% if product.imgDefault != 'none' %}
+                <h2>Imagem Padrãos</h2>
+                  <img class="d-block w-100" src="{{product.imgDefault}}" height="500px" width="400px" alt="Imagem {{item.number}}">
+                {% else %}
+                  <h1>Nenhuma imagem Registrada desse Produto {{product}}</h1>
+                {% endif %}
               </div>
-
               {% for item in gallery %}
                 <div class="col-lg-8 offset-2">
                   <img class="d-block w-100" src="{{item.img}}" height="500px" width="400px" alt="Imagem {{item.number}}">
                   <div class="row">
-                    <a href="#" class="btn col-lg-6"><i class="fa fa-star-o" aria-hidden="true"></i> Principal</a>
+                    <a href="{% url 'products:img-padrao' item.pk %}" class="btn col-lg-6"><i class="fa fa-star-o" aria-hidden="true"></i> Principal</a>
                     <a href="{% url 'products:img-deletar' item.pk %}" class="btn col-lg-6 text-danger"><i class="fa fa-times" aria-hidden="true"></i> Deletar</a>
                   </div>
                 </div>

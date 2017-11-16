@@ -11,7 +11,7 @@
         <form method="POST" action="{% url 'products:upload-img' pk %}" enctype="multipart/form-data" class="form-horizontal">
             {% csrf_token %}
             <div class="input-group">
-                <input type="file" name="proImg" class="form-control">
+                <input type="file" name="proImg" class="form-control" required>
                 <span class="input-group-btn">
                     <button type="submit" name="button" class="btn btn-success">Atualizar foto</button>
                 </span>

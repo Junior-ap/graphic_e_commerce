@@ -9,7 +9,7 @@ class Product(models.Model):
     amount = models.IntegerField('Quantidade')
     saleValue = models.IntegerField('Valor de Venda')
     category = models.ForeignKey(Category, verbose_name="Categoria")
-    imgDefault = models.CharField('Imagem Padrão', max_length=350, default=0)
+    imgDefault = models.CharField('Imagem Padrão', max_length=350, default='none')
 
     def __str__(self):
         return self.name

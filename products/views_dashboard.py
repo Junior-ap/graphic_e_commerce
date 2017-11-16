@@ -67,28 +67,31 @@ class UploadImg(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
         product = Product.objects.get(pk=self.kwargs['pk'])
+
         filep = self.request.FILES['proImg']
         contActive = GalleryProducts.objects.filter(product=product.pk, status=0).count()
         contDesabled = GalleryProducts.objects.filter(product=product.pk, status=1).count()
         if contDesabled > 0:
-            gallery = GalleryProducts.objects.get(product=product.pk, status=1)
+            gallery = GalleryProducts.objects.filter(product=product.pk, status=1)[0]
             filep.name = str(product.name) +'-'+ str(gallery.number)
             proImg = cloudinary.uploader.upload(filep, folder='Products' ,public_id=filep.name)
             gallery.img=proImg['secure_url']
-            gallery.status=0
+            gallery.status = 0
             gallery.save()
         else:
-            if contActive > 2:
+            if contActive > 1:
                 msg = 'Limite de imagens 3'
                 print(msg)
             else:
-                filep.name = str(product.name) +'-'+ str(contActive + 1)
-                proImg = cloudinary.uploader.upload(filep, folder='Products' ,public_id=filep.name)
-                #if product.imgDefault == 0:
-                    #product.imgDefault=proImg['secure_url']
-                    #product.save()
-                #else:
-                GalleryProducts.objects.create(product=product, status=0, img=proImg['secure_url'], number=contActive + 1)
+                if product.imgDefault == 'none':
+                    filep.name = str(product.name) +'-'+ str(contActive + 1)
+                    proImg = cloudinary.uploader.upload(filep, folder='Products' ,public_id=filep.name)
+                    product.imgDefault=proImg['secure_url']
+                    product.save()
+                else:
+                    filep.name = str(product.name) +'-'+ str(contActive + 2)
+                    proImg = cloudinary.uploader.upload(filep, folder='Products' ,public_id=filep.name)
+                    GalleryProducts.objects.create(product=product, status=0, img=proImg['secure_url'], number=contActive + 2)
         return redirect(reverse_lazy('products:galeria-imagens', kwargs={'pk':product.pk}))
 
 class GalleryProductsView(LoginRequiredMixin, TemplateView):
@@ -98,6 +101,7 @@ class GalleryProductsView(LoginRequiredMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super(GalleryProductsView, self).get_context_data(**kwargs)
         context['gallery'] = GalleryProducts.objects.filter(product=self.kwargs['pk'], status=0)
+        context['product'] = Product.objects.get(pk=self.kwargs['pk'])
         context['pk'] = self.kwargs['pk']
         return context
 
@@ -110,12 +114,25 @@ class GalleryImgDeleteView(LoginRequiredMixin, View):
         imgProd.save()
         return redirect(reverse_lazy('products:galeria-imagens', kwargs={'pk':pk}))
 
+class GalleryImgDefaltView(LoginRequiredMixin, View):
+
+    def get(self, request, pk):
+        imgProd = GalleryProducts.objects.get(pk=pk)
+        pk = imgProd.product_id
+        product = Product.objects.get(pk=pk)
+        imgUrl = product.imgDefault
+        product.imgDefault = imgProd.img
+        imgProd.img = imgUrl
+        product.save()
+        imgProd.save()
+        return redirect(reverse_lazy('products:galeria-imagens', kwargs={'pk':pk}))
 
 
 #Urls de Gallery Products
 gallery_product_view = GalleryProductsView.as_view()
 upload_img_product_view = UploadImg.as_view()
 gallery_img_delete_view = GalleryImgDeleteView.as_view()
+gallery_img_defalt_view = GalleryImgDefaltView.as_view()
 
 #Urls de Product
 create_product_view = CreateProductView.as_view()

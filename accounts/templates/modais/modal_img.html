@@ -12,7 +12,7 @@
         <form method="POST" action="{% url 'accounts:upload' %}" enctype="multipart/form-data" class="form-horizontal">
             {% csrf_token %}
             <div class="input-group">
-                <input type="file" name="avatar" class="form-control">
+                <input type="file" name="avatar" class="form-control" required>
                 <span class="input-group-btn">
                     <button type="submit" name="button" class="btn btn-success">Atualizar foto</button>
                 </span>
