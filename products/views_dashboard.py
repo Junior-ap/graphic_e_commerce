@@ -49,6 +49,7 @@ class DetailProductView(LoginRequiredMixin, IsRootOrAdm, DetailView):
         context = super(DetailProductView, self).get_context_data(**kwargs)
         context['form'] = ProductCreationForm(self.request.POST or None, instance=context['product'])
         context['gallery'] = GalleryProducts.objects.filter(product=self.kwargs['pk'], status=0)
+        
         context['pk'] = self.kwargs['pk']
         return context
 
@@ -67,7 +68,6 @@ class UploadImg(LoginRequiredMixin, View):
 
     def post(self, request, *args, **kwargs):
         product = Product.objects.get(pk=self.kwargs['pk'])
-
         filep = self.request.FILES['proImg']
         contActive = GalleryProducts.objects.filter(product=product.pk, status=0).count()
         contDesabled = GalleryProducts.objects.filter(product=product.pk, status=1).count()

@@ -2,7 +2,7 @@ from django.db import models
 from categories.models import Category
 
 class Product(models.Model):
-    name = models.CharField('Nome', max_length=150)
+    name = models.CharField('Nome', max_length=150, unique=True)
     size = models.CharField('Tamanho', max_length=30)
     description = models.TextField('Descrição', blank=True)
     acquiredValue = models.IntegerField('Valor de Frabricacao', blank=True ,default=0)

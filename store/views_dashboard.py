@@ -5,10 +5,6 @@ from django.views.generic import TemplateView, CreateView, View, ListView, Detai
 
 from datetime import date
 
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
-
 from .models import  Order, Cart
 from .forms import OrderCreationdeForm
 from .cart import AddCart
@@ -44,15 +40,23 @@ class AddCartItemView(LoginRequiredMixin, IsSalesMan, View):
         prod = get_object_or_404(Product, pk=pk)
         cart = Cart.objects.filter(product=pk, order= ordem.pk)
         if not cart:
-            Cart.objects.create(amounts=1, value=prod.saleValue, product=prod, order=ordem)
-            ordem.valueTotal = ordem.valueTotal + prod.saleValue
-            ordem.save()
+            if prod.amount >= 1:
+                Cart.objects.create(amounts=1, value=prod.saleValue, product=prod, order=ordem)
+                ordem.valueTotal = ordem.valueTotal + prod.saleValue
+                ordem.save()
+            else:
+                msg = 'Não produto em estoque Suficiente'
+                print(msg)
         else:
             cart_atu = Cart.objects.get(product=us.pk)
-            cart_atu.amounts = cart_atu.amounts + cart_atu.amounts
-            cart_atu.save()
-            ordem.valueTotal = ordem.valueTotal + cart_atu.value
-            ordem.save()
+            if prod.amount > cart_atu.amounts:
+                cart_atu.amounts = cart_atu.amounts + cart_atu.amounts
+                cart_atu.save()
+                ordem.valueTotal = ordem.valueTotal + cart_atu.value
+                ordem.save()
+            else:
+                msg = 'Não produto em estoque Suficiente'
+                print(msg)
         return redirect(reverse_lazy('store:list_cart'))
 
 class ListCartItemView(LoginRequiredMixin, IsSalesMan, ListView):
@@ -90,10 +94,15 @@ class SumCartItemView(LoginRequiredMixin, IsSalesMan, View):
         us = self.request.user
         ordem = Order.objects.get(user=us.pk, status=0)
         item = Cart.objects.get(pk=pk)
-        item.amounts = item.amounts + 1
-        ordem.valueTotal = ordem.valueTotal + item.value
-        ordem.save()
-        item.save()
+        prod = get_object_or_404(Product, pk=item.product.pk)
+        if prod.amount > item.amounts:
+            item.amounts = item.amounts + 1
+            ordem.valueTotal = ordem.valueTotal + item.value
+            ordem.save()
+            item.save()
+        else:
+            msg = 'Não produto em estoque Suficiente'
+            print(msg)
         return redirect(reverse_lazy('store:list_cart'))
 
 class SubtractCartItemView(LoginRequiredMixin, IsSalesMan, View):
@@ -112,6 +121,11 @@ class FinalizeOrderView(LoginRequiredMixin, IsSalesMan, View):
 
     def get(self, request, pk):
         ordem = Order.objects.get(pk=pk)
+        cartItems = Cart.objects.filter(order=pk)
+        for item in cartItems:
+            product = Product.objects.get(pk=item.product.pk)
+            product.amount = product.amount - item.amounts
+            product.save()
         endDate = date.fromordinal(ordem.dateStart.toordinal() + 5)
         ordem.dateEnd = endDate
         ordem.status = 2
