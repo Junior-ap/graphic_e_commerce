@@ -8,7 +8,7 @@ import cloudinary.uploader
 import cloudinary.api
 
 from categories.models import Category
-from accounts.polices import IsRootOrAdm
+from accounts.polices import IsRootOrAdm, IsSalesMan
 
 from .forms import ProductCreationForm
 from .models import Product, GalleryProducts
@@ -21,7 +21,7 @@ class CreateProductView(LoginRequiredMixin, IsRootOrAdm, CreateView):
     success_url = reverse_lazy('products:list_product')
 
 
-class ListProductView(LoginRequiredMixin, IsRootOrAdm, ListView):
+class ListProductView(LoginRequiredMixin, IsSalesMan, ListView):
     model = Product
     context_object_name = 'product'
     template_name = 'list_products_dashboard.html'
@@ -40,7 +40,7 @@ class ListProductView(LoginRequiredMixin, IsRootOrAdm, ListView):
             queryset = Product.objects.all()
         return queryset
 
-class DetailProductView(LoginRequiredMixin, IsRootOrAdm, DetailView):
+class DetailProductView(LoginRequiredMixin, IsSalesMan, DetailView):
     model = Product
     context_object_name = 'product'
     template_name = 'detail_product_dashboard.html'
@@ -49,7 +49,7 @@ class DetailProductView(LoginRequiredMixin, IsRootOrAdm, DetailView):
         context = super(DetailProductView, self).get_context_data(**kwargs)
         context['form'] = ProductCreationForm(self.request.POST or None, instance=context['product'])
         context['gallery'] = GalleryProducts.objects.filter(product=self.kwargs['pk'], status=0)
-        
+
         context['pk'] = self.kwargs['pk']
         return context
 
@@ -62,7 +62,7 @@ class DetailProductView(LoginRequiredMixin, IsRootOrAdm, DetailView):
         return redirect(reverse_lazy('products:detail_product', kwargs={'pk':self.get_object().pk}))
 
 #Metodos de Gallery Products
-class UploadImg(LoginRequiredMixin, View):
+class UploadImg(LoginRequiredMixin, IsRootOrAdm, View):
     model = GalleryProducts
     template_name = 'detail_product_dashboard.html'
 
@@ -94,7 +94,7 @@ class UploadImg(LoginRequiredMixin, View):
                     GalleryProducts.objects.create(product=product, status=0, img=proImg['secure_url'], number=contActive + 2)
         return redirect(reverse_lazy('products:galeria-imagens', kwargs={'pk':product.pk}))
 
-class GalleryProductsView(LoginRequiredMixin, TemplateView):
+class GalleryProductsView(LoginRequiredMixin, IsRootOrAdm, TemplateView):
     model = GalleryProducts
     template_name = 'gallery_product_dashboard.html'
 
@@ -105,7 +105,7 @@ class GalleryProductsView(LoginRequiredMixin, TemplateView):
         context['pk'] = self.kwargs['pk']
         return context
 
-class GalleryImgDeleteView(LoginRequiredMixin, View):
+class GalleryImgDeleteView(LoginRequiredMixin, IsRootOrAdm, View):
 
     def get(self, request, pk):
         imgProd = GalleryProducts.objects.get(pk=pk)
@@ -114,7 +114,7 @@ class GalleryImgDeleteView(LoginRequiredMixin, View):
         imgProd.save()
         return redirect(reverse_lazy('products:galeria-imagens', kwargs={'pk':pk}))
 
-class GalleryImgDefaltView(LoginRequiredMixin, View):
+class GalleryImgDefaltView(LoginRequiredMixin, IsRootOrAdm, View):
 
     def get(self, request, pk):
         imgProd = GalleryProducts.objects.get(pk=pk)

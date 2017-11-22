@@ -1,0 +1,60 @@
+{% extends "base_dashboard.html" %}
+
+{% block content %}
+<div class="page-header">
+<div class="row">
+    <div class="col-lg-6">
+        <h1>Minhas Ordens de Comprar</h1>
+    </div>
+    <div class="col-lg-2 offset-lg-4">
+      <div class="dropdown">
+        <button class="btn bg-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="icon icon-bars"></i> Status
+        </button>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="?filtro=fabricar">Fabricar</a>
+            <a class="dropdown-item" href="?filtro=finalizada">Finalizada</a>
+            <a class="dropdown-item" href="?filtro=entregue">Entregue</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="client">
+  <div class="container-fluid">
+    <div class="row">
+     <div class="statistics col-lg-12 col-12">
+       {% for ord in order %}
+        <div class="row statistic d-flex align-items-center bg-white has-shadow">
+            <div class="col-lg-2">
+                <div class="text"><small>Usuario</small><br><strong>{{ord.user}}</strong></div>
+            </div>
+            <div class="col-lg-2">
+                <div class="text"><small>Cliente</small><br><strong>{{ord.name}}</strong></div>
+            </div>
+            <div class="col-lg-2 text-center client-title">
+                <a href="{% url 'store:detail_order' ord.pk %}" class="btn btn-primary">Editar</a>
+            </div>
+            <div class="col-lg-2">
+                <div class="text"><small>Valor Total</small><br><strong>R$ {{ord.valueTotal}}</strong></div>
+            </div>
+            <div class="col-lg-2">
+                <div class="text"><small>Data De Entrega</small><br><strong>{{ord.dateEnd}}</strong></div>
+            </div>
+            <div class="col-lg-2">
+               <div class="text"><small>Status</small><br><strong>
+                   {% if ord.status == 1 %} Finalizada {% endif %}
+                   {% if ord.status == 2 %} Fabricar {% endif %}
+                   {% if ord.status == 3 %} Entrege {% endif %}
+               </strong></div>
+            </div>
+        </div>
+       {% endfor %}
+     </div>
+    </div>
+  </div>
+</section>
+
+{% endblock  %}

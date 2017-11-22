@@ -32,6 +32,28 @@ class DashboardView(LoginRequiredMixin, IsSalesMan, AddCart,  ListView):
             queryset = Order.objects.filter(status=2)
         return queryset
 
+class MyOrderView(LoginRequiredMixin, IsSalesMan, AddCart,  ListView):
+        model = Order
+        context_object_name = 'order'
+        template_name = 'my_order.html'
+        paginate_by = 10
+
+        def get_queryset(self):
+            filtro = self.request.GET.get('filtro')
+            us = self.request.user
+            print(us)
+            if filtro is not None:
+                if filtro == 'finalizada':
+                    queryset = Order.objects.filter(status=1, user=us.pk)
+                if filtro == 'entregue':
+                    queryset = Order.objects.filter(status=3, user=us.pk)
+                if filtro == 'fabricar':
+                    queryset = Order.objects.filter(status=2, user=us.pk)
+            else:
+                queryset = Order.objects.filter(status=2, user=us.pk)
+            return queryset
+
+
 class AddCartItemView(LoginRequiredMixin, IsSalesMan, View):
 
     def get(self, request, pk):
@@ -162,6 +184,7 @@ class DetailOrderView(LoginRequiredMixin, IsSalesMan, DetailView):
 
 
 dashboard = DashboardView.as_view()
+my_order = MyOrderView.as_view()
 finalize_order = FinalizeOrderView.as_view()
 detail_order = DetailOrderView.as_view()
 finalize_status = ChangeStatusOrderView.as_view(status=1)
