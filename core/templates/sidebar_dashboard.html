@@ -24,7 +24,7 @@
       <a href="{% url 'store:dashboard' %}"><i class="icon-home"></i>Ordens de Compras</a>
     </li>
 {% endif %}
-    <li class="{% if request.resolver_match.url_name == 'list_categories' %} active {% endif %}">
+    <li class="{% if request.resolver_match.url_name == 'minhas-ordens' %} active {% endif %}">
       <a href="{% url 'store:minhas-ordens'%}"> <i class="icon icon-presentation"></i>Minhas Vendas</a>
     </li>
     <li>

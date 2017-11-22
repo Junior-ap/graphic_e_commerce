@@ -152,7 +152,7 @@ class FinalizeOrderView(LoginRequiredMixin, IsSalesMan, View):
         ordem.dateEnd = endDate
         ordem.status = 2
         ordem.save()
-        return redirect(reverse_lazy('store:dashboard'))
+        return redirect(reverse_lazy('store:minhas-ordens'))
 
 class ChangeStatusOrderView(LoginRequiredMixin, IsSalesMan, View):
     status = 2

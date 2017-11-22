@@ -4,9 +4,13 @@
 
 <div class="page-header">
   <div class="row">
+
     <div class="col-lg-4">
-      <a href="{% url 'products:new_product' %}" class="btn btn-primary">Novo Produto</a>
+      {% if user.nivel == 0 or user.nivel == 1 %}
+        <a href="{% url 'products:new_product' %}" class="btn btn-primary">Novo Produto</a>
+      {% endif %}
     </div>
+
     <div class="col-lg-2 offset-lg-5">
       <div class="dropdown">
         <button class="btn bg-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -35,7 +39,7 @@
                 {{p.category}}
               </span>
             </div>
-          <a href="{% url 'products:detail_product' p.pk %}" class="btn btn-primary ">Editar</a>
+          <a href="{% url 'products:detail_product' p.pk %}" class="btn btn-primary ">Visualizar</a>
           </div>
         </div>
         </div>

@@ -17,7 +17,7 @@ class Order(models.Model):
     valueTotal = models.FloatField('Valor Total', null=True, default=0)
     status = models.IntegerField('Status', choices=STATUS, default=SHOPPING)
     dateStart = models.DateTimeField('Data Compra', auto_now=True)
-    dateEnd = models.DateTimeField('Data Entrega', null=True)
+    dateEnd = models.DateField('Data Entrega', null=True)
     user = models.ForeignKey(User, verbose_name="Usuario")
 
     class Meta:
