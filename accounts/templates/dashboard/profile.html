@@ -1,0 +1,117 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="row">
+  <div class="col s12 m12 l12">
+    <h5 class="breadcrumbs-title">Perfil</h5>
+    <ol class="breadcrumb">
+      <li>
+        <a href="{% url 'store:dashboard'%}">Dashboard</a>
+      </li>
+      <li class="active">Perfil</li>
+    </ol>
+  </div>
+
+  <div class="col s12 m12 ">
+    <div class="col s12 m12 14">
+      <div id="profile-card" class="card">
+        <div class="card-image waves-effect waves-block waves-light">
+          {% with 'images/covers/'|add:user.get_theme_display|add:'.png' as theme %}
+          <img class="activator" src="{% static theme %}" alt="user bg">
+          {% endwith %}
+        </div>
+        <div class="card-content">
+          <img src="{{user.avatar}}" alt="" class="circle osgeni-img-profile-lg activator card-profile-image">
+          <a class="btn-floating activator btn-move-up waves-effect waves-light orange darken-2 right">
+            <i class="mdi-editor-mode-edit"></i>
+          </a>
+          <a class="btn-floating btn-move-up waves-effect waves-light blue darken-2 right" href="{% url 'accounts:configuracao' %}">
+            <i class="mdi-action-settings"></i>
+          </a>
+          <span class="card-title activator grey-text text-darken-4">
+            <p><small>@{{user.username}}</small></p>
+          </span>
+          <p><i class="mdi-action-assignment-ind"></i>{{user.name}}</p>
+          <p><i class="mdi-communication-email"></i>{{user.email}}</p>
+          <p><i class="mdi-action-perm-phone-msg"></i>
+            {% if user.phone %}{{user.phone}}{% else %}<span>Nenhum telefone cadastrado</span>{% endif %}
+          </p>
+        </div>
+        <hr>
+
+        <div class="card-content">
+          <div class="row">
+            <div class="col s12 m12 l12">
+              <table class="striped">
+                <thead>
+                  <tr>
+                    <th>Cep</th>
+                    <th>Rua</th>
+                    <th>Número</th>
+                    <th>Bairro</th>
+                    <th>Cidade</th>
+                    <th>Estado</th>
+                    <th>Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for add in address  %}
+                  <tr>
+                    <th scope="row">{{ add.cep }}</th>
+                    <td>{{ add.street }}</td>
+                    <td>{{ add.number }}</td>
+                    <td>{{ add.neighborhood }}</td>
+                    <td>{{ add.city }}</td>
+                    <td>{{ add.state }}</td>
+                    <td><a href="{% url 'address:excluir' add.pk %}" >Excluir</a></td>
+                  </tr>
+                  {% empty %}
+                  <tr>
+                    <td colspan="7">Nenhum endereço cadastrado</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="row">
+            <a class="btn-floating  waves-effect waves-light teal darken-2 right"
+            href="{% url 'address:new' %}">
+              <i class="mdi-content-add"></i>
+            </a>
+        </div>
+        </div>
+
+        <div class="card-reveal" style="display: none; transform: translateY(0px);">
+          <span class="card-title grey-text text-darken-4">
+            Editar {{user.get_short_name}} <i class="mdi-navigation-close right"></i></span>
+            <div class="row">
+              <form method="POST" class="col s12">
+                {% csrf_token %}
+                <div class="row">
+                  {% for field in form_up  %}
+                  <div class="input-field col s12 m6">
+                    {% render_field field class="validate"  %}
+                    <label for="{{field.auto_id}}">{{field.label}}</label>
+                  </div>
+                  {% endfor %}
+                </div>
+                <div class="row">
+                  <div class="input-field col s12">
+                    <button class="btn teal darken-2 waves-effect waves-light right" type="submit" name="action">Atualizar
+                      <i class="mdi-action-done right"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  {% endblock %}

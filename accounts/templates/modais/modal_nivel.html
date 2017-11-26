@@ -1,20 +1,15 @@
-<div class="modal fade mol-top" id="nivelModal" tabindex="-1" role="dialog" aria-labelledby="nivelModal" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="nivelModal">Modifique os Nível</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+<div id="updateNivel" class="modal bottom-sheet">
+  <div class="modal-content">
+    <h5>Status de </h5>
+    <div class="row">
+      <div class="col s12 m4 l4">
+        <a href="{% url 'accounts:adm' user_taxed.pk %}" class="waves-effect waves-light blue lighten-1 btn osgeni-btn-block"><i class="mdi-action-settings"></i> Administrador</a>
       </div>
-      <div class="modal-body">
-          O nível de permissão da aos usuários privilegios no sistema
+      <div class="col s12 m4 l4">
+        <a href="{% url 'accounts:salesman' user_taxed.pk %}" class="waves-effect waves-light red darken-2 btn osgeni-btn-block"><i class="mdi-action-perm-identity"></i> Vendedor</a>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-        <a class="btn btn-primary" href="{% url 'accounts:adm' user_taxed.pk %}" role="button">Administrador</a>
-        <a class="btn btn-warning" href="{% url 'accounts:salesman' user_taxed.pk %}">Vendedor</a>
-        <a class="btn btn-success" href="{% url 'accounts:customer' user_taxed.pk %}">Cliente</a>
+      <div class="col s12 m4 l4">
+        <a href="{% url 'accounts:customer' user_taxed.pk %}" class="waves-effect waves-light teal darken-2 btn osgeni-btn-block"><i class="mdi-editor-insert-emoticon"></i> Cliente</a>
       </div>
     </div>
   </div>

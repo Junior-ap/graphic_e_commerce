@@ -9,7 +9,7 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
-from .forms import UserCreationForm, UserUpdateForm
+from .forms import UserCreationForm, UserUpdateForm, ThemeForm
 from .models import User
 from .polices import IsRootOrAdm, IsSalesMan
 
@@ -26,8 +26,8 @@ class CreateUserView(CreateView):
 class ListUserView(LoginRequiredMixin, IsRootOrAdm, ListView):
     model = User
     context_object_name = 'users'
-    template_name = 'list_users_dashboard.html'
-    paginate_by = 12
+    template_name = 'dashboard/list_users.html'
+    paginate_by = 1
 
     def get_queryset(self):
         filtro = self.request.GET.get('filtro')
@@ -42,14 +42,13 @@ class ListUserView(LoginRequiredMixin, IsRootOrAdm, ListView):
         return queryset
 
 class DetailUserTaxedView(LoginRequiredMixin, IsRootOrAdm, TemplateView):
-    template_name = 'detail_user_cadastrado.html'
+    template_name = 'dashboard/detail_user.html'
 
     def get_context_data(self, **kwargs):
         context = super(DetailUserTaxedView, self).get_context_data(**kwargs)
         pk = self.kwargs['pk']
         user = get_object_or_404(User, pk=pk)
         context['user_taxed'] = user
-        context['form'] = UserCreationForm(self.request.POST or None, instance=user)
         context['address'] = Address.objects.filter(user=pk)
         return context
 
@@ -72,14 +71,12 @@ class ChangeNivelUserView(LoginRequiredMixin, IsRootOrAdm, View):
 class ProfileView(LoginRequiredMixin, IsSalesMan, DetailView):
     model = User
     context_object_name = 'user_taxed'
-    template_name = 'profile_dashboard.html'
+    template_name = 'dashboard/profile.html'
 
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
-        pk = self.kwargs['pk']
+        pk = self.request.user.pk
         context['form_up'] = UserUpdateForm(self.request.POST or None, instance=context['user_taxed'])
-        context['form_password'] = PasswordChangeForm(self.request.user, self.request.POST)
-        context['form_address'] = AddressCreationForm(self.request.POST or None)
         context['address'] = Address.objects.filter(user=pk)
         return context
 
@@ -90,13 +87,30 @@ class ProfileView(LoginRequiredMixin, IsSalesMan, DetailView):
         form_password = context['form_password']
         if form.is_valid():
             form.save()
-        print(context['form_password'])
-        if form_password.is_valid():
-            form_password.save()
         return self.render_to_response(context)
 
     def get_object(self):
         return self.request.user
+
+class SettingsView(LoginRequiredMixin, TemplateView):
+    template_name = 'dashboard/settings.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(SettingsView, self).get_context_data(**kwargs)
+        context['form_change_password'] = PasswordChangeForm(self.request.user, self.request.POST)
+        context['theme_form'] = ThemeForm(self.request.POST or None, instance=self.request.user)
+        return context
+
+    def post(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        form_change_password = context['form_change_password']
+        theme_form = context['theme_form']
+        if form_change_password.is_valid():
+            form_change_password.save()
+            return redirect(reverse_lazy('accounts:logout'))
+        if theme_form.is_valid():
+            theme_form.save()
+        return redirect(reverse_lazy('accounts:profile'))
 
 class UploadImg(LoginRequiredMixin, View):
 
@@ -107,10 +121,10 @@ class UploadImg(LoginRequiredMixin, View):
         avatar = cloudinary.uploader.upload(filep, folder='User' ,public_id=user.email)
         user.avatar = avatar['secure_url']
         user.save()
-        return redirect(reverse_lazy('accounts:profile', kwargs={'pk':user.pk}))
+        return redirect(reverse_lazy('accounts:profile'))
 
 
-upload_view = UploadImg.as_view()
+
 #Modificar_User_Taxed
 create_user = CreateUserView.as_view()
 list_user = ListUserView.as_view()
@@ -125,3 +139,5 @@ salesman = ChangeNivelUserView.as_view(nivel=2)
 customer = ChangeNivelUserView.as_view()
 #Modificar_User_logado
 profile = ProfileView.as_view()
+upload_view = UploadImg.as_view()
+settings_view = SettingsView.as_view()

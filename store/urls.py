@@ -5,6 +5,7 @@ urlpatterns = [
     url(r'^$', views.index, name="index"),
     url(r'dashboard/$', views_dashboard.dashboard, name="dashboard"),
     url(r'minhas-ordens/$', views_dashboard.my_order, name="minhas-ordens"),
+    url(r'lista-ordens/$', views_dashboard.list_order, name="listar-ordens"),
     url(r'finalizar-ordem/(?P<pk>\d+)$', views_dashboard.finalize_order, name="finalizar"),
     url(r'detalhar-ordem/(?P<pk>\d+)$', views_dashboard.detail_order, name="detail_order"),
     url(r'^status/(?P<pk>\d+)/finalizar', views_dashboard.finalize_status, name='finalizar_status'),

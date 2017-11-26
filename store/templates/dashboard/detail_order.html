@@ -1,0 +1,108 @@
+{% extends "base_dashboard.html" %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<section class="dashboard-header">
+  <div class="container-fluid">
+    <div class="row">
+     <div class="statistics col-lg-8 offset-2 col-12">
+        <div class="card">
+            <div class="card-body text-center">
+                 <form method="POST">
+                    {% csrf_token %}
+                  <div class="form-group">
+                    {% if not ord.name %}
+                    <label for="{{form.name.auto_id}}" class="form-control-label">{{form.name.label}}</label>
+                    {% render_field form.name class="form-control" %}
+                    {% else %}
+                    <small>Cliente que Comprou</small><h3 class="h4">{{ord.name}}</h3>
+                    {% endif %}
+                  </div>
+                  {% if not ord.name %}
+                   <div class="form-group">
+                    <input type="submit" value="Salvar" class="btn btn-primary">
+                   </div>
+                   {% endif %}
+                  <div class="text">
+                      <small>Usuario que Comprou</small><h3 class="h4">{{ord.user}}</h3>
+                  </div>
+                  <div class="text">
+                      <small>Valor da Compra</small><h3>R$ {{ord.valueTotal}}</h3>
+                  </div>
+                  <div class="text">
+                      <small>Data da Compra</small><h3>{{ord.dateStart}}</h3>
+                  </div>
+                  <div class="text">
+                      <small>Data da Entregar</small><h3>{{ord.dateEnd}}</h3>
+                  </div>
+                  <div class="text">
+                      <small>Status da Compra</small>
+                      <h3>
+                      {% if ord.status == 1  %}
+                          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#statusModal">
+                            <h5>Finalizada</h5>
+                          </button>
+                      {% endif %}
+                      {% if ord.status == 2  %}
+                         <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#statusModal">
+                            <h5>Fabricar</h5>
+                         </button>
+                      {% endif %}
+                      {% if ord.status == 3  %}
+                          <button type="button" class="btn btn-success" data-toggle="modal" data-target="#statusModal">
+                            <h5>Entregue</h5>
+                          </button>
+                      {% endif %}
+                      </h3>
+                  </div>
+                </form>
+            </div>
+        </div>
+     </div>
+    </div>
+  </div>
+</section>
+<section class="client">
+<div class="container-fluid">
+  <div class="row">
+      <div class="statistics col-lg-12 ">
+          {% for item in cart_items %}
+          <div class="row statistic d-flex align-items-center bg-white has-shadow">
+            <div class="col-lg-4">
+                <div class="text"><small>Produto</small><br><strong>{{item.product}}</strong></div>
+            </div>
+            <div class="col-lg-4">
+                  <div class="text"><small>Quantidade</small><br><strong>{{item.amounts}}</strong></div>
+            </div>
+            <div class="col-lg-4">
+                <div class="text"><small>Valor Unitario</small><br><strong>R$ {{item.value}}</strong></div>
+            </div>
+          </div>
+          {% endfor %}
+      </div>
+  </div>
+</div>
+</section>
+<div class="modal fade" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="statusModal">Modifique os Status</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          Modifique o Status da Ordem de comprar
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
+          <a class="btn btn-warning" href="{% url 'store:fabricar_status' ord.pk %}">Fabricar</a>
+          <a class="btn btn-danger" href="{% url 'store:finalizar_status' ord.pk %}">Finalizada</a>
+          <a class="btn btn-success" href="{% url 'store:entregue_status' ord.pk %}">Entregue</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock  %}

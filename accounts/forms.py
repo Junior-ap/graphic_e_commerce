@@ -12,3 +12,8 @@ class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'name', 'phone']
+
+class ThemeForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['theme']

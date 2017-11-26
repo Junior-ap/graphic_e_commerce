@@ -7,8 +7,9 @@ urlpatterns = [
     url(r'^login/$', login, {'template_name': 'login.html'}, name='login'),
     url(r'^logout/$', logout, {'next_page':'accounts:login'}, name='logout'),
     #Usuario_Session
-    url(r'^upload-img/$', views_dashboard.upload_view, name='upload'),
-    url(r'^profile/(?P<pk>\d+)$', views_dashboard.profile, name='profile'),
+    url(r'^upload-img/$', views_dashboard.upload_view, name='upload-img'),
+    url(r'^profile/$', views_dashboard.profile, name='profile'),
+    url(r'^configuracao/$', views_dashboard.settings_view, name='configuracao'),
     #Usuarios_Plataforma
     url(r'^novo-usuario/$', views_dashboard.create_user, name='new_user'),
     url(r'^lista-usuarios/$', views_dashboard.list_user, name='list_user'),

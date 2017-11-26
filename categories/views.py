@@ -11,20 +11,20 @@ from accounts.polices import IsRootOrAdm
 class CreateCategoryView(LoginRequiredMixin, IsRootOrAdm, CreateView):
     model = Category
     form_class = CreateCategoryForm
-    template_name = 'new_category.html'
+    template_name = 'dashboard/new.html'
     success_url = reverse_lazy('categories:list_categories')
 
 class ListCategoryView(LoginRequiredMixin, IsRootOrAdm, ListView):
     model = Category
     context_object_name = 'categories'
-    template_name = 'list_category.html'
+    template_name = 'dashboard/list.html'
     paginate_by = 12
 
 class DetailCategoryView(LoginRequiredMixin, IsRootOrAdm, DetailView):
     model = Category
     form_class = CreateCategoryForm
     context_object_name = 'category'
-    template_name = 'detail_category.html'
+    template_name = 'dashboard/detail.html'
 
     def get_context_data(self, **kwargs):
         context = super(DetailCategoryView, self).get_context_data(**kwargs)

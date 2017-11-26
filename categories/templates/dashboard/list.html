@@ -1,0 +1,61 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+{% block content %}
+<div class="row">
+  <div class="col s12 m12 l12">
+    <h5 class="breadcrumbs-title">Categorias</h5>
+    <ol class="breadcrumb">
+      <li class="active">Categorias</li>
+    </ol>
+  </div>
+  <div class="col s12 m12 ">
+    <div class="row">
+      <div class="col s12 m6 l4 offset-l4">
+        <div class="dataTables_filter">
+          <form action="?search=" class="row" method="GET">
+            <div class="col s10">
+              <div class="input-field">
+                <input type="text" id="search" name="search">
+                <label for="search">Pesquisar Nome</label>
+              </div>
+            </div>
+            <div class="col s2">
+              <button type="submit" class="btn-floating waves-effect waves-light teal darken-2 osgeni-btn-search"><i class="mdi-action-search"></i></button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col s12 m6 l12">
+        <div class="row">
+          {% for category in categories %}
+          <div class="col s12 m4 l3">
+            <div id="profile-card" class="card">
+              <div class="card-content">
+                <div class="row">
+                  <div class="col s10 m10 l10">
+                    <h5>{{category}}</h5>
+                  </div>
+                  <div class="col s2 m2 l2">
+                    <a class="btn-floating waves-effect blue lighten-1 right" href="{% url 'categories:detail_category' category.pk %}">
+                      <i class="mdi-editor-mode-edit"></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="col s12 offset-l5">
+        {% include "dashboard/paginator.html" %}
+      </div>
+    </div>
+  </div>
+  <div class="fixed-action-btn">
+    <a href="{% url 'categories:new_category' %}" class="btn-floating btn-large teal darken-2">
+      <i class="large mdi-content-add"></i>
+    </a>
+  </div>
+</div>
+{% endblock %}

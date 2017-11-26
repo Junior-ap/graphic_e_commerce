@@ -1,0 +1,28 @@
+{% load static %}
+<header id="header" class="page-topbar">
+        <!-- start header nav-->
+        <div class="navbar-fixed">
+            <nav class="bg-dark">
+                <div class="nav-wrapper">
+                    <h1 class="logo-wrapper">
+                      <a href="#" class="brand-logo darken-1">
+                        <!--
+                        <img src="#" alt="materialize logo"></a> <span class="logo-text">Graphic</span></h1>
+                      -->
+                    <ul class="right hide-on-med-and-down">
+
+
+                        <li><a href="{% url 'store:list_cart' %}"><i class="mdi-maps-local-grocery-store"></i></a>
+                        </li>
+                        <li><a href="javascript:void(0);" class="waves-effect waves-block waves-light toggle-fullscreen"><i class="mdi-action-settings-overscan"></i></a>
+                        </li>
+                        <!-- Dropdown Trigger -->
+                        <li><a href="{% url 'store:list_cart' %}"><i class="mdi-hardware-keyboard-tab"></i></a>
+                        </li>
+                    </ul>
+
+                </div>
+            </nav>
+        </div>
+        <!-- end header nav-->
+    </header>

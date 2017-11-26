@@ -10,47 +10,53 @@ from .forms import OrderCreationdeForm
 from .cart import AddCart
 
 from products.models import Product
-from accounts.polices import IsSalesMan
+from accounts.polices import IsSalesMan, IsRootOrAdm
 
 
-class DashboardView(LoginRequiredMixin, IsSalesMan, AddCart,  ListView):
+class DashboardView(LoginRequiredMixin, IsRootOrAdm,  TemplateView):
+    template_name= 'dashboard/dashboard.html'
+
+class ListOrderView(LoginRequiredMixin, IsRootOrAdm, ListView):
     model = Order
-    context_object_name = 'order'
-    template_name = 'dashboard.html'
+    context_object_name = 'orders'
+    template_name = 'dashboard/list_order.html'
     paginate_by = 10
 
     def get_queryset(self):
         filtro = self.request.GET.get('filtro')
-        if filtro is not None:
-            if filtro == 'finalizada':
-                queryset = Order.objects.filter(status=1)
-            if filtro == 'entregue':
-                queryset = Order.objects.filter(status=3)
-            if filtro == 'fabricar':
-                queryset = Order.objects.filter(status=2)
-        else:
+        queryset = Order.objects.filter().exclude(status=0)
+        if filtro == 'todos':
+            pass
+        elif filtro == 'finalizada':
+            queryset = Order.objects.filter(status=1)
+        elif filtro == 'entregue':
+            queryset = Order.objects.filter(status=3)
+        elif filtro == 'fabricar':
             queryset = Order.objects.filter(status=2)
+        #else:
+            #queryset = Order.objects.filter(name__icontains=self.request.GET.get('search', ''))
         return queryset
 
 class MyOrderView(LoginRequiredMixin, IsSalesMan, AddCart,  ListView):
         model = Order
-        context_object_name = 'order'
-        template_name = 'my_order.html'
+        context_object_name = 'orders'
+        template_name = 'dashboard/my_order.html'
         paginate_by = 10
 
         def get_queryset(self):
             filtro = self.request.GET.get('filtro')
             us = self.request.user
-            print(us)
-            if filtro is not None:
-                if filtro == 'finalizada':
-                    queryset = Order.objects.filter(status=1, user=us.pk)
-                if filtro == 'entregue':
-                    queryset = Order.objects.filter(status=3, user=us.pk)
-                if filtro == 'fabricar':
-                    queryset = Order.objects.filter(status=2, user=us.pk)
-            else:
+            queryset = Order.objects.filter(user=us.pk).exclude(status=0)
+            if filtro == 'todos':
+                pass
+            elif filtro == 'finalizada':
+                queryset = Order.objects.filter(status=1, user=us.pk)
+            elif filtro == 'entregue':
+                queryset = Order.objects.filter(status=3, user=us.pk)
+            elif filtro == 'fabricar':
                 queryset = Order.objects.filter(status=2, user=us.pk)
+            #else:
+                #queryset = Order.objects.filter(name__icontains=self.request.GET.get('search', ''))
             return queryset
 
 
@@ -84,7 +90,7 @@ class AddCartItemView(LoginRequiredMixin, IsSalesMan, View):
 class ListCartItemView(LoginRequiredMixin, IsSalesMan, ListView):
     model = Cart
     context_object_name = 'itens_cart'
-    template_name = 'cart.html'
+    template_name = 'dashboard/cart.html'
     paginate_by = 12
 
     def get_context_data(self, **kwargs):
@@ -185,6 +191,7 @@ class DetailOrderView(LoginRequiredMixin, IsSalesMan, DetailView):
 
 dashboard = DashboardView.as_view()
 my_order = MyOrderView.as_view()
+list_order = ListOrderView.as_view()
 finalize_order = FinalizeOrderView.as_view()
 detail_order = DetailOrderView.as_view()
 finalize_status = ChangeStatusOrderView.as_view(status=1)

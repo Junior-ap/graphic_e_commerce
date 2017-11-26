@@ -1,13 +1,82 @@
-.mol-top{
-  margin-top: 80px !important;
+.graphic-btn-categori {
+  margin-top: 50%;
 }
 
-.avatar-profile-mini{
-  width: 70px;
-  height: 50px;
+.osgeni-btn-search {
+  margin-left: -100%;
+  margin-top: 50%;
+}
+.osgeni-padding {
+  padding: 50px;
+}
+.toast {
+  background-color: #00796b !important;
+}
+.osgeni-primary-color {
+  background-color: #16a085 !important;
+}
+.bg-dark {
+  background-color: #2c3e50 !important;
+}
+.osgeni-btn-block {
+  width: 100%
 }
 
-.avatar-profile{
-  width: 94px;
-  height: 94px;
+.osgeni-img-profile {
+  width: 70px !important;
+  height: 70px !important;
+}
+.osgeni-logo-login{
+  width: 50%;
+}
+.osgeni-img-profile-lg {
+  width: 100px !important;
+  height: 100px !important;
+}
+.osgeni-img-profile-sm {
+  width: 50px !important;
+  height: 50px !important;
+}
+
+.filter-margin-top {
+  margin-top: 6%
+}
+
+.stock-btn-move-up {
+  position: relative;
+  top: -10px;
+  right: -15px;
+  margin-right: 10px !important;
+}
+.marginTop: {
+  margin-top: 100px;
+}
+.osgeni-margin-top {
+  margin-top: 2%
+}
+/*
+Pra dispositivos que tem uma largura mínima de 320 pixels. Celulares, por exemplo.
+*/
+@media screen and (min-width: 320px) {
+}
+
+/*
+Pra dispositivos que tem uma largura mínima de 768 pixels. tablets, por exemplo.
+*/
+@media screen and (min-width: 768px) {
+}
+
+
+/*
+Com uma largura mínima de 992 pixels. Monitores por exemplo.
+*/
+@media screen and (min-width: 992px) {
+
+}
+
+/*
+Dispositivos com largura mínima de 1200 pixels. Por exemplo TVs.
+*/
+@media screen and (min-width: 1200px) {
+
 }
