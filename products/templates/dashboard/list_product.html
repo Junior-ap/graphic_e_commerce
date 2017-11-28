@@ -1,0 +1,76 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+{% block content %}
+<div class="row">
+  <div class="col s12 m12 l12">
+    <h5 class="breadcrumbs-title">Lista de Produtos</h5>
+    <ol class="breadcrumb">
+      <li class="active">Lista de Produtos</li>
+    </ol>
+  </div>
+  <div class="col s12 m12 ">
+    <div class="row">
+      <div class="col s12 m6 l4 offset-l4">
+        <div class="dataTables_filter">
+          <form action="?search=" class="row" method="GET">
+            <div class="col s10">
+              <div class="input-field">
+                <input type="text" id="search" name="search">
+                <label for="search">Pesquisar Nome do Produto</label>
+              </div>
+            </div>
+            <div class="col s2">
+              <button type="submit" class="btn-floating waves-effect waves-light teal darken-2 osgeni-btn-search"><i class="mdi-action-search"></i></button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col s12 m6 l3 offset-l1">
+        <a class='dropdown-button waves-effect waves-light teal darken-1 btn osgeni-btn-block filter-margin-top'
+        href='#' data-activates='filter'>Categoria
+        <i class="mdi-content-filter-list right"></i>
+      </a>
+      <ul id='filter' class='dropdown-content'>
+        <li><a href="?filte=todos" class="teal-text text-darken-2">Todos</a></li>
+        {% for c in category %}
+        <li><a href="?filter={{c.pk}}" class="teal-text text-darken-2">{{c.name}}</a></li>
+        {% endfor %}
+      </ul>
+
+    </div>
+    <div class="col s12 m6 l12">
+      <div class="row">
+        {% for product in products %}
+        <div class="col s12 m4 l4">
+          <div class="card">
+            <div class="card-image waves-effect waves-block waves-light">
+              <img src="{{product.imgDefault}}" alt="produto imagens">
+              <div class="row">
+                <div class="col s12 m12 l12">
+                  <h5 class="heard center-align"><a href="{% url 'products:detail_product' product.pk %}">{{product}}</a></h5>
+                </div>
+                <div class="col s4 m4 l4 offset-l2 offset-m2 offset-s2">
+                  <a href="#" class="btn-floating btn-large btn-price red darken-3"> <i class="mdi-action-shopping-cart"></i> </a>
+                </div>
+                <div class="col s4 m4 l4 offset-l2 offset-m2 offset-s2">
+                  <a href="#" class="btn-floating btn-large btn-price blue lighten-1">R$ {{product.saleValue}}</a>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="col s12 offset-l5">
+          {% include "dashboard/paginator.html" %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fixed-action-btn">
+    <a href="#" class="btn-floating btn-large teal darken-2">
+      <i class="large mdi-content-add"></i>
+    </a>
+  </div>
+
+</div>
+{% endblock %}

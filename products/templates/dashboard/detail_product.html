@@ -1,0 +1,83 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+
+<div class="row">
+  <div class="col s12 m12 l12">
+    <h5 class="breadcrumbs-title">Detales de </h5>
+    <ol class="breadcrumb">
+      <li>
+        <a href="#">Dashboard</a>
+      </li>
+      <li>
+        <a >Lista Usuários</a>
+      </li>
+      <li class="active">Detales</li>
+    </ol>
+  </div>
+
+  <div class="col s12 m12 l6">
+      <div  class="card">
+
+        <div class="card-image waves-effect waves-block waves-light">
+
+          <img class="activator" src="{{product.imgDefault}}" alt="user bg">
+
+        </div>
+
+        <div class="card-content">
+          <div class="col s4 m4 l4 offset-l2 offset-m2 offset-s2">
+            <a href="#" class="btn-floating btn-large btn-price red darken-3"> <i class="mdi-action-shopping-cart"></i> </a>
+          </div>
+          <div class="col s4 m4 l4 offset-l2 offset-m2 offset-s2">
+            <a href="#" class="btn-floating btn-large btn-price blue lighten-1">R$ {{product.saleValue}}</a>
+          </div>
+        </div>
+
+<!--
+        <div class="card-content">
+
+          <div class="row">
+            <div class="col s12 m12 l12">
+              <table class="striped">
+
+                <thead>
+                  <tr>
+                    <th>Cep</th>
+                    <th>Rua</th>
+                    <th>Número</th>
+                    <th>Bairro</th>
+                    <th>Cidade</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {% for add in address  %}
+                  <tr>
+                    <th scope="row">{{ add.cep }}</th>
+                    <td>{{ add.street }}</td>
+                    <td>{{ add.number }}</td>
+                    <td>{{ add.neighborhood }}</td>
+                    <td>{{ add.city }}</td>
+                    <td>{{ add.state }}</td>
+                  </tr>
+                  {% empty %}
+                  <tr>
+                    <td colspan="6">Nenhum endereço cadastrado</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+
+              </table>
+            </div>
+          </div>
+
+        </div>
+-->
+
+    </div>
+  </div>
+</div>
+{% endblock %}
