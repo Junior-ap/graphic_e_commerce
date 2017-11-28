@@ -22,6 +22,14 @@ class User(AbstractBaseUser, PermissionsMixin):
         (DISABLED, 'disabled'),
         (BLOCKED, 'blocked'),
     )
+    PADRAO = 0
+    CAMPO = 1
+    VINHO = 2
+    THEMES = (
+        (PADRAO, 'padrao'),
+        (CAMPO, 'campo'),
+        (VINHO, 'vinho')
+    )
 
     name = models.CharField('Nome', max_length=150)
     email = models.EmailField('Email', unique=True)
@@ -38,6 +46,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         ], help_text='Um nome curto que será usado para identificá-lo de forma única no sistema'
     )
     avatar = models.CharField('Foto', max_length=350, default='https://res.cloudinary.com/graphic/image/upload/v1510588337/User/user-default.jpg')
+    theme = models.IntegerField('Tema', choices=THEMES, default=PADRAO)
     nivel = models.IntegerField('Nível', choices=TYPES, default=CUSTOMER)
     is_staff = models.BooleanField('Equipe', default=False)
     is_active = models.BooleanField('Ativo', default=True)

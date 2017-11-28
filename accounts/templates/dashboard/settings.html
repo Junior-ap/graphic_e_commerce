@@ -1,0 +1,146 @@
+{% extends "dashboard/base.html" %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="row">
+
+  <div class="col s12 m12 l12">
+    <h5 class="breadcrumbs-title">Configurações de conta</h5>
+    <ol class="breadcrumb">
+      <li>
+        <a href="{% url 'store:dashboard'%}">Dashboard</a>
+      </li>
+      <li>
+        <a href="{% url 'accounts:profile' %}">Perfil</a>
+      </li>
+      <li class="active">Confirgurações</li>
+    </ol>
+  </div>
+
+  <div class="col s12">
+    <ul class="tabs">
+      <li class="tab col s3">
+        <a class="active" href="#themes">Preferências</a>
+      </li>
+      <li class="tab col s3">
+        <a href="#security">Segurança</a>
+      </li>
+    </ul>
+  </div>
+
+  <div id="themes" class="col s12">
+    <div class="row">
+
+      <div class="col s12 m12 l12">
+        <h4 class="center-align">Preferências</h4>
+      </div>
+
+      <div class="col s12 m6 l6">
+
+        <div class="card blue-grey lighten-5 osgeni-padding">
+
+          <form action="{% url 'accounts:upload-img' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="row">
+
+              <div class="col s12 m12 l12">
+                <div class="file-field input-field">
+                  <div class="btn">
+                    <span>Foto</span>
+                    <input type="file" name='avatar'>
+                  </div>
+                  <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col s12 m12 l12">
+                <button class="btn waves-effect waves-light teal darken-2 osgeni-btn-block"
+                type="submit">Atualizar foto
+                <i class="mdi-navigation-refresh right"></i>
+              </button>
+            </div>
+
+          </div>
+
+        </form>
+
+      </div>
+
+    </div>
+
+    <div class="col s12 m6 l6">
+
+      <div class="card blue-grey lighten-5 osgeni-padding">
+
+        <form method="POST">
+          {% csrf_token %}
+
+          <div class="row">
+
+            <div class="col 12 m12 l12">
+              <label for="{{theme_form.theme.auto_id}}">{{theme_form.theme.label|upper}}</label>
+              {% render_field theme_form.theme %}
+            </div>
+
+            <div class="col s12 m12 l12">
+              <button class="btn waves-effect waves-light teal darken-2 osgeni-btn-block"
+              type="submit">Atualizar Tema
+              <i class="mdi-navigation-refresh right"></i>
+            </button>
+          </div>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+
+</div>
+</div>
+
+<div id="security" class="col s12">
+  <div class="row">
+
+    <div class="col s12 m12 l12">
+      <h4 class="center-align">Segurança</h4>
+    </div>
+
+    <div class="col s12 m4 l4">
+
+      <form method="POST">
+        {% csrf_token %}
+
+        <h5>Atualização de senha</h5>
+        <div class="row">
+
+          <div class="col s12 m12 l12">
+            {% for field in form_change_password  %}
+            <div class="input-field col s12 m12">
+              {% render_field field class="validate"  %}
+              <label for="{{field.auto_id}}">{{field.label}}</label>
+            </div>
+            {% endfor %}
+          </div>
+
+          <div class="col s12 m12 l12">
+            <button class="btn waves-effect waves-light teal darken-2 osgeni-btn-block"
+            type="submit">Atualizar senha
+            <i class="mdi-navigation-refresh right"></i>
+          </button>
+        </div>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+</div>
+
+{% endblock %}

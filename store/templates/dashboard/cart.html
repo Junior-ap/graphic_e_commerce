@@ -1,0 +1,68 @@
+{% extends "dashboard/base.html" %}
+
+{% block content %}
+
+
+<div class="col s12 m12 l12">
+  <h5 class="breadcrumbs-title">Carinho de Comprar</h5>
+  <ol class="breadcrumb">
+    <li class="active">
+      <a href="{% url 'products:list_product' %}">Estoque</a>
+    </li>
+    <li class="active">Carinho de Comprar</li>
+  </ol>
+</div>
+
+<div class="row">
+
+<div class="col s12 m12 l8">
+  <table class="striped">
+    <thead>
+      <tr>
+        <th>Produto</th>
+        <th>Quantidade</th>
+        <th>Valor Unitario R$</th>
+        <th>Valor Total R$</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+  <tbody>
+
+  {% for c in itens_cart %}
+    <tr>
+      <th scope="row">{{c.product}}</th>
+      <td>{{ c.amount }}</td>
+      <td>R$ {{c.value}}</td>
+      <td>R$ {% widthratio c.value 1 c.amount %},00</td>
+       <td>
+        <a href="#" class="btn-floating waves-effect waves-light blue-grey">
+          <i class="mdi-action-visibility"></i>
+        </a>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+ </table>
+</div>
+
+<div class="col s12 m12 l4">
+ <div id="profile-card" class="card">
+  <div class="card-content">
+    <div class="row">
+      <div class="col s12">
+        <p>Compra Atual <strong></strong></p>
+        <p>
+          Valor da Compra R$ <strong>{{ord.valueTotal}}</strong>
+        </p>
+        <p>
+          <a href="{% url 'store:finalizar' ord.pk %}" class="btn waves-effect red darken-2">Finalizar Comprar</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+
+
+{% endblock  %}

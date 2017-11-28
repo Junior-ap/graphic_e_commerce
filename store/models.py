@@ -8,10 +8,10 @@ class Order(models.Model):
     FACTORY = 2
     DELIVERED = 3
     STATUS= (
-        (SHOPPING, 'comprando'),
-        (FINISHED, 'finalizada'),
-        (FACTORY, 'fabricar'),
-        (DELIVERED, 'entregue'),
+        (SHOPPING, 'Comprando'),
+        (FINISHED, 'Finalizada'),
+        (FACTORY, 'Fabricar'),
+        (DELIVERED, 'Entregue'),
     )
     name = models.CharField('Cliente', max_length= 150, null=True)
     valueTotal = models.FloatField('Valor Total', null=True, default=0)

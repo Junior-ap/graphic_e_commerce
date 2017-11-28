@@ -1,40 +1,31 @@
 {% load widget_tweaks %}
-<div class="modal fade mol-top" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModal" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="profileModal">Editar Perfil</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+<div id="updateProfile" class="card-reveal modal bottom-sheet" style="display: none; transform: translateY(0px);">
+  <span class="card-title grey-text text-darken-4">
+    Editar {{user.get_short_name}} <i class="mdi-navigation-close right"></i></span>
+  <div class="row">
+    <form method="POST" class="col s12">
+      {% csrf_token %}
+
+      <div class="row">
+
+        {% for field in form_up  %}
+        <div class="input-field col s12 m6">
+          {% render_field field class="validate"  %}
+          <label for="{{field.auto_id}}">{{field.label}}</label>
+        </div>
+        {% endfor %}
+
       </div>
-      <div class="modal-body">
-        <form method="POST">
-           {% csrf_token %}
-          <div class="form-group">
-            <label for="{{form_up.username.auto_id}}" >{{form_up.username.label}}</label>
-            {% render_field form_up.username  class='form-control' placeholder='Usuario' %}
-          </div>
-          <div class="form-group">
-            <label for="{{form_up.name.auto_id}}" >{{form_up.name.label}}</label>
-            {% render_field form_up.name  class='form-control' placeholder='Nome' %}
-          </div>
-          <div class="form-group">
-            <label for="{{form_up.email.auto_id}}" >{{form_up.email.label}}</label>
-            {% render_field form_up.email  class='form-control' placeholder='Email' %}
-          </div>
-          <div class="form-group">
-            <label for="{{form_up.phone.auto_id}}" >{{form_up.phone.label}}</label>
-            {% render_field form_up.phone  class='form-control' placeholder='Telefone' %}
-          </div>
-          <div class="form-group">
-            <input type="submit" value="Atualizar" class="btn btn-primary">
-          </div>
-        </form>
+
+      <div class="row">
+        <div class="input-field col s12">
+          <button class="btn teal darken-2 waves-effect waves-light right" type="submit" name="action">Atualizar
+            <i class="mdi-action-done right"></i>
+          </button>
+        </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-      </div>
-    </div>
+
+    </form>
   </div>
+
 </div>

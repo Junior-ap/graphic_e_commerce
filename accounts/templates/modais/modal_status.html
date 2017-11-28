@@ -1,20 +1,15 @@
-<div class="modal fade mol-top" id="statusModal" tabindex="-1" role="dialog" aria-labelledby="statusModal" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="statusModal">Modifique os Status</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+<div id="updateStatus" class="modal bottom-sheet">
+  <div class="modal-content">
+    <h5>Status de </h5>
+    <div class="row">
+      <div class="col s12 m4">
+        <a href="{% url 'accounts:active' user_taxed.pk %}" class="waves-effect waves-light teal darken-2 btn osgeni-btn-block"><i class="mdi-action-done-all left"></i>Ativar</a>
       </div>
-      <div class="modal-body">
-          O status é a situação do usuario no sistema
+      <div class="col s12 m4">
+        <a href="{% url 'accounts:disable' user_taxed.pk %}" class="waves-effect waves-light yellow darken-2 btn osgeni-btn-block"><i class="mdi-action-info-outline left"></i>Desativar</a>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Sair</button>
-        <a class="btn btn-success" href="{% url 'accounts:active' user_taxed.pk %}" role="button">Ativar</a>
-        <a class="btn btn-warning" href="{% url 'accounts:disable' user_taxed.pk %}">Destivar</a>
-        <a class="btn btn-danger" href="{% url 'accounts:block' user_taxed.pk %}">Bloquear</a>
+      <div class="col s12 m4">
+        <a href="{% url 'accounts:block' user_taxed.pk %}" class="waves-effect waves-light red darken-2 btn osgeni-btn-block"><i class="mdi-content-block left"></i>Bloquear</a>
       </div>
     </div>
   </div>

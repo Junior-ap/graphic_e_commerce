@@ -1,0 +1,112 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+
+<div class="row">
+  <div class="col s12 m12 l12">
+    <h5 class="breadcrumbs-title">Detales de {{user_taxed.get_short_name}}</h5>
+    <ol class="breadcrumb">
+      <li>
+        <a href="#">Dashboard</a>
+      </li>
+      <li>
+        <a href="{% url 'accounts:list_user' %}">Lista Usuários</a>
+      </li>
+      <li class="active">Detales</li>
+    </ol>
+  </div>
+  <div class="col s12 m12 ">
+    <div class="col s12 m12 14">
+      <div id="profile-card" class="card">
+        <div class="card-image waves-effect waves-block waves-light">
+          {% with 'images/covers/'|add:user_taxed.get_theme_display|add:'.png' as theme %}
+          <img class="activator" src="{% static theme %}" alt="user bg">
+          {% endwith %}
+        </div>
+        <div class="card-content">
+          <img src="{{user_taxed.avatar}}" alt="" class="circle osgeni-img-profile-lg activator card-profile-image">
+          {% if user_taxed.nivel == 0 or user_taxed.nivel == 1 %}
+          <a class="btn-floating btn-move-up waves-effect waves-light blue lighten-1 modal-trigger right" href="#updateNivel">
+            <i class="mdi-action-settings"></i>
+          </a>
+          {% elif user_taxed.nivel == 2 %}
+          <a class="btn-floating btn-move-up waves-effect waves-light red darken-2 modal-trigger right" href="#updateNivel">
+            <i class="mdi-action-perm-identity"></i>
+          </a>
+          {% else %}
+          <a class="btn-floating btn-move-up waves-effect waves-light teal darken-2 modal-trigger right" href="#updateNivel">
+            <i class="mdi-editor-insert-emoticon"></i>
+          </a>
+          {% endif %}
+
+          {% if user_taxed.status == 0  %}
+          <a class="btn-floating btn-move-up waves-effect waves-light teal darken-2 modal-trigger right" href="#updateStatus">
+            <i class="mdi-action-done-all"></i>
+          </a>
+          {% elif user_taxed.status == 1 %}
+          <a class="btn-floating btn-move-up waves-effect waves-light yellow darken-2 modal-trigger right" href="#updateStatus">
+            <i class="mdi-action-info-outline"></i>
+          </a>
+          {% else %}
+          <a class="btn-floating btn-move-up waves-effect waves-light red darken-2 modal-trigger right" href="#updateStatus">
+            <i class="mdi-content-block"></i>
+          </a>
+          {% endif %}
+
+          <span class="card-title activator grey-text text-darken-4">
+          <p>{{user_detail.name}} <small>@{{user_taxed.username}}</small></p></span>
+          <p><i class="mdi-action-assignment-ind"></i>{{user_taxed.name}}</p>
+          <p><i class="mdi-communication-email"></i>{{user_taxed.email}}</p>
+          <p><i class="mdi-action-perm-phone-msg"></i>{{user_taxed.phone}}</p>
+        </div>
+        <hr>
+
+        <div class="card-content">
+
+          <div class="row">
+            <div class="col s12 m12 l12">
+              <table class="striped">
+
+                <thead>
+                  <tr>
+                    <th>Cep</th>
+                    <th>Rua</th>
+                    <th>Número</th>
+                    <th>Bairro</th>
+                    <th>Cidade</th>
+                    <th>Estado</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {% for add in address  %}
+                  <tr>
+                    <th scope="row">{{ add.cep }}</th>
+                    <td>{{ add.street }}</td>
+                    <td>{{ add.number }}</td>
+                    <td>{{ add.neighborhood }}</td>
+                    <td>{{ add.city }}</td>
+                    <td>{{ add.state }}</td>
+                  </tr>
+                  {% empty %}
+                  <tr>
+                    <td colspan="6">Nenhum endereço cadastrado</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+
+              </table>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include "modais/modal_status.html" %}
+{% include "modais/modal_nivel.html" %}
+{% endblock %}

@@ -1,0 +1,67 @@
+<aside id="left-sidebar-nav">
+  <ul id="slide-out" class="side-nav fixed leftside-navigation">
+    <li class="user-details">
+      <div class="row">
+        <div class="col col s4 m4 l4">
+          <img src="{{user.avatar}}" alt="" class="circle osgeni-img-profile valign profile-image">
+        </div>
+        <div class="col col s8 m8 l8">
+          <ul id="profile-dropdown" class="dropdown-content">
+            <li><a href="{% url 'accounts:profile' %}"><i class="mdi-action-face-unlock"></i> Perfil</a>
+            </li>
+            <li><a href="#"><i class="mdi-communication-live-help"></i> Ajuda</a>
+            </li>
+            <li class="divider"></li>
+            <li><a href="#"><i class="mdi-hardware-keyboard-tab"></i> Sair</a>
+            </li>
+          </ul>
+          <a class="btn-flat dropdown-button waves-effect waves-light white-text profile-btn" href="#" data-activates="profile-dropdown">
+            {{user}}
+            <i class="mdi-navigation-arrow-drop-down right"></i>
+          </a>
+          <p class="user-roal">{{user.get_nivel_display}}</p>
+        </div>
+      </div>
+    </li>
+    {% if user.nivel == 0 or user.nivel == 1 %}
+    <li class="bold {% if request.resolver_match.url_name == 'dashboard' %} active {% endif %}">
+      <a href="{% url 'store:dashboard' %}" class="waves-effect waves-cyan">
+        <i class="mdi-action-dashboard"></i> Dashboard
+      </a>
+    </li>
+    <li class="bold {% if request.resolver_match.url_name == 'listar-ordens' %} active {% endif %}">
+      <a href="{% url 'store:listar-ordens' %}" class="waves-effect waves-cyan">
+        <i class="mdi-action-dashboard"></i> Litar de Ordens
+      </a>
+    </li>
+    {% endif %}
+
+    <li class="bold {% if request.resolver_match.url_name == 'minhas-ordens' %} active {% endif %}">
+      <a href="{% url 'store:minhas-ordens' %}" class="waves-effect waves-cyan">
+        <i class="mdi-action-assessment"></i> Minhas Vendas
+      </a>
+    </li>
+
+    <li class="bold {% if request.resolver_match.url_name == 'list_product' %} active {% endif %}">
+      <a href="{% url 'products:list_product' %}" class="waves-effect waves-cyan">
+        <i class="mdi-action-assignment"></i> Estoque
+      </a>
+    </li>
+  {% if user.nivel == 0 or user.nivel == 1 %}
+    <li class="bold {% if request.resolver_match.url_name == 'list_user' %} active {% endif %}">
+      <a href="{% url 'accounts:list_user' %}" class="waves-effect waves-cyan">
+        <i class="mdi-social-group"></i> Usuarios
+      </a>
+    </li>
+
+    <li class="bold {% if request.resolver_match.url_name == 'list_categories' %} active {% endif %}">
+      <a href="{% url 'categories:list_categories'%}" class="waves-effect waves-cyan">
+        <i class="mdi-action-assignment-turned-in"></i> Categoriass
+      </a>
+    </li>
+  {% endif %}
+  </ul>
+  <a href="#" data-activates="slide-out" class="tog-side sidebar-collapse btn-floating btn-medium waves-effect waves-light hide-on-large-only darken-2">
+    <i class="mdi-navigation-menu" ></i>
+  </a>
+</aside>
