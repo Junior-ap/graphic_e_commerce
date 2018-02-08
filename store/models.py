@@ -18,7 +18,7 @@ class Order(models.Model):
     status = models.IntegerField('Status', choices=STATUS, default=SHOPPING)
     dateStart = models.DateTimeField('Data Compra', auto_now=True)
     dateEnd = models.DateField('Data Entrega', null=True)
-    user = models.ForeignKey(User, verbose_name="Usuario")
+    user = models.ForeignKey(User, verbose_name="Usuario", on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Ordem'
@@ -29,8 +29,8 @@ class Order(models.Model):
 class Cart(models.Model):
     amounts = models.IntegerField('Quantidade')
     value = models.FloatField('Valor', default=0)
-    product = models.ForeignKey(Product, verbose_name="Produto")
-    order = models.ForeignKey(Order, verbose_name="Ordem")
+    product = models.ForeignKey(Product, verbose_name="Produto", on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, verbose_name="Ordem", on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = 'Carrinho'

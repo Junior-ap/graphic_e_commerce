@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.core.urlresolvers import reverse_lazy
+from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView, CreateView, ListView, DetailView, View, UpdateView
 
@@ -23,8 +23,8 @@ class CreateProductView(LoginRequiredMixin, IsRootOrAdm, CreateView):
 
 class ListProductView(LoginRequiredMixin, IsSalesMan, ListView):
     model = Product
-    context_object_name = 'product'
-    template_name = 'list_products_dashboard.html'
+    context_object_name = 'products'
+    template_name = 'dashboard/list_product.html'
     paginate_by = 12
 
     def get_context_data(self, **kwargs):
@@ -43,7 +43,7 @@ class ListProductView(LoginRequiredMixin, IsSalesMan, ListView):
 class DetailProductView(LoginRequiredMixin, IsSalesMan, DetailView):
     model = Product
     context_object_name = 'product'
-    template_name = 'detail_product_dashboard.html'
+    template_name = 'dashboard/detail_product.html'
 
     def get_context_data(self, **kwargs):
         context = super(DetailProductView, self).get_context_data(**kwargs)
@@ -96,13 +96,12 @@ class UploadImg(LoginRequiredMixin, IsRootOrAdm, View):
 
 class GalleryProductsView(LoginRequiredMixin, IsRootOrAdm, TemplateView):
     model = GalleryProducts
-    template_name = 'gallery_product_dashboard.html'
+    template_name = 'dashboard/gallery_product.html'
 
     def get_context_data(self, **kwargs):
         context = super(GalleryProductsView, self).get_context_data(**kwargs)
         context['gallery'] = GalleryProducts.objects.filter(product=self.kwargs['pk'], status=0)
         context['product'] = Product.objects.get(pk=self.kwargs['pk'])
-        context['pk'] = self.kwargs['pk']
         return context
 
 class GalleryImgDeleteView(LoginRequiredMixin, IsRootOrAdm, View):

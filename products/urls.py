@@ -1,15 +1,17 @@
-from django.conf.urls import url
+from django.urls import path
 from . import views, views_dashboard
 
+
+app_name = 'products'
 urlpatterns = [
     #Url de Gallery Products
-    url(r'^galeria-imgens/(?P<pk>\d+)$', views_dashboard.gallery_product_view, name='galeria-imagens'),
-    url(r'^upload-img/(?P<pk>\d+)$', views_dashboard.upload_img_product_view, name='upload-img'),
-    url(r'^img-deleta/(?P<pk>\d+)$', views_dashboard.gallery_img_delete_view, name='img-deletar'),
-    url(r'^img-padrao/(?P<pk>\d+)$', views_dashboard.gallery_img_defalt_view, name='img-padrao'),
+    path('imagens/<int:pk>', views_dashboard.gallery_product_view, name='imagens'),
+    path('upload-img/<int:pk>', views_dashboard.upload_img_product_view, name='upload-img'),
+    path('img-deleta/<int:pk>', views_dashboard.gallery_img_delete_view, name='img-deletar'),
+    path('img-padrao/<int:pk>', views_dashboard.gallery_img_defalt_view, name='img-padrao'),
     #Url de produtos
-    url(r'^$', views_dashboard.list_product_view, name="list_product"),
-    url(r'^novo-produto/$', views_dashboard.create_product_view, name="new_product"),
-    url(r'^detalhar-produto/(?P<pk>\d+)$', views_dashboard.detail_product_view, name='detail_product'),
+    path('', views_dashboard.list_product_view, name="list_product"),
+    path('novo-produto/', views_dashboard.create_product_view, name="new_product"),
+    path('detalhar-produto/<int:pk>', views_dashboard.detail_product_view, name='detail_product'),
 
 ]

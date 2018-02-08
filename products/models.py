@@ -4,11 +4,11 @@ from categories.models import Category
 class Product(models.Model):
     name = models.CharField('Nome', max_length=150, unique=True)
     size = models.CharField('Tamanho', max_length=30)
-    description = models.TextField('Descrição', blank=True)
+    description = models.TextField('Descrição', null=True)
     acquiredValue = models.IntegerField('Valor de Frabricacao', blank=True ,default=0)
     amount = models.IntegerField('Quantidade')
     saleValue = models.IntegerField('Valor de Venda')
-    category = models.ForeignKey(Category, verbose_name="Categoria")
+    category = models.ForeignKey(Category, verbose_name="Categoria", null=True, on_delete=models.SET_NULL)
     imgDefault = models.CharField('Imagem Padrão', max_length=350, default='none')
 
     def __str__(self):
@@ -24,7 +24,7 @@ class FactoryItem(models.Model):
     value = models.IntegerField('Valor')
     company = models.CharField('Empresa', max_length=150, blank=True)
     salesMan = models.CharField('Vendedor', max_length=150, blank=True)
-    product = models.ForeignKey(Product, verbose_name="Produto")
+    product = models.ForeignKey(Product, verbose_name="Produto", on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -43,7 +43,7 @@ class GalleryProducts(models.Model):
         (ACTIVATED, 'activated'),
         (DISABLED, 'disabled'),
     )
-    product = models.ForeignKey(Product, verbose_name="Produto")
+    product = models.ForeignKey(Product, verbose_name="Produto", on_delete=models.CASCADE)
     status = models.IntegerField('Status', choices=STATUS, default=ACTIVATED)
     img = models.CharField('Imagem', max_length=350)
     number = models.IntegerField('Numero')

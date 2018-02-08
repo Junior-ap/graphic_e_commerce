@@ -1,0 +1,41 @@
+{% extends "dashboard/base.html" %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+
+    <div class="row">
+        <div class="col s12 m12 l12">
+            <h5 class="breadcrumbs-title">Imagens do {{product}} </h5>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="{% url 'products:list_product' %}">Lista Produtos</a>
+                </li>
+                <li>
+                   <a href="{% url 'products:detail_product' product.pk %}">Detales</a>
+                </li>
+                <li class="active">Imagens</li>
+            </ol>
+        </div>
+
+        <div class="col s12 m12 l6 offset-l3 graphic-margin-top">
+            <div  class="card">
+                <div class="card-image waves-effect waves-block waves-light center">
+                    <h3>Imagem Padrão</h3>
+                    <img class="activator" src="{{product.imgDefault}}" alt="user bg">
+                </div>
+            </div>
+        </div>
+
+        <div class="col s12 m12 l6 offset-l3 graphic-margin-top">
+            <div  class="card">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <img class="activator" src="{{product.imgDefault}}" alt="user bg">
+                    <a href="" class="btn right graphic-margin-bottom graphic-margin-right ">
+                        <i class="mdi-action-grade"></i> Pricipal</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}

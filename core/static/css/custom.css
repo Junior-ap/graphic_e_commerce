@@ -2,6 +2,22 @@
   margin-top: 50%;
 }
 
+.graphic-margin-top {
+  margin-top: 2%
+}
+
+.graphic-margin-bottom {
+  margin-bottom: 2%
+}
+
+.graphic-margin-right {
+  margin-right: 2%
+}
+.graphic-btn-full {
+  width: 100%
+}
+
+
 .osgeni-btn-search {
   margin-left: -100%;
   margin-top: 50%;
@@ -48,12 +64,10 @@
   right: -15px;
   margin-right: 10px !important;
 }
-.marginTop: {
+.marginTop {
   margin-top: 100px;
 }
-.osgeni-margin-top {
-  margin-top: 2%
-}
+
 /*
 Pra dispositivos que tem uma largura mínima de 320 pixels. Celulares, por exemplo.
 */

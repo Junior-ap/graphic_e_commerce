@@ -1,6 +1,5 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.core.urlresolvers import reverse_lazy
-from django.contrib.auth.views import LoginView
+from django.shortcuts import redirect, get_object_or_404
+from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import PasswordChangeForm
 from django.views.generic import TemplateView, CreateView, ListView, DetailView, View, UpdateView
@@ -14,7 +13,6 @@ from .models import User
 from .polices import IsRootOrAdm, IsSalesMan
 
 from address.models import Address
-from address.forms import AddressCreationForm
 
 
 class CreateUserView(CreateView):

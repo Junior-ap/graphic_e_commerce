@@ -1,4 +1,6 @@
 import os
+from decouple import config
+from dj_database_url import parse as dburl
 
 import cloudinary
 import cloudinary.uploader
@@ -25,9 +27,8 @@ INSTALLED_APPS = [
     'cloudinary',
 
      #Apps project
-    'core',
-    'products',
     'accounts',
+    'products',
     'address',
     'store',
     'categories'
@@ -49,7 +50,7 @@ ROOT_URLCONF = 'graphic_e_commerce.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['core'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -64,12 +65,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'graphic_e_commerce.wsgi.application'
 
+
+default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    'default': config('DATABASE_URL', default=default_dburl, cast=dburl),
     }
-}
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -97,12 +97,17 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'core'),
+    os.path.join(BASE_DIR, 'core', 'static'),
+]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
 LOGIN_URL = 'accounts:login'
 LOGIN_REDIRECT_URL = 'store:minhas-ordens'
 LOGOUT_URL = 'accounts:logout'
+
 AUTH_USER_MODEL = 'accounts.User'
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',

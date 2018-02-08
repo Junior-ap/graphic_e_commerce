@@ -8,7 +8,7 @@ class Address(models.Model):
     neighborhood = models.CharField('Bairro', max_length=100)
     city = models.CharField('Cidade', max_length=100)
     state = models.CharField('Estado', max_length=3)
-    user = models.ForeignKey(User, verbose_name="Usuario", null=True)
+    user = models.ForeignKey(User, verbose_name="Usuario", null=True, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.city

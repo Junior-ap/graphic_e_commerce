@@ -1,7 +1,9 @@
-from django.conf.urls import url
+from django.urls import path
 from . import views
 
+
+app_name = 'address'
 urlpatterns = [
-    url(r'^$', views.new, name="new"),
-    url(r'excluir/(?P<pk>\d+)$', views.delete, name='excluir'),
+    path('', views.new, name="new"),
+    path('excluir/int:<pk>', views.delete, name='excluir'),
 ]

@@ -50,10 +50,12 @@
                   <h5 class="heard center-align"><a href="{% url 'products:detail_product' product.pk %}">{{product}}</a></h5>
                 </div>
                 <div class="col s4 m4 l4 offset-l2 offset-m2 offset-s2">
-                  <a href="#" class="btn-floating btn-large btn-price red darken-3"> <i class="mdi-action-shopping-cart"></i> </a>
+                  <a href="#" class="btn-floating btn-large btn-price red darken-3">
+                      <i class="mdi-action-add-shopping-cart"></i> </a>
                 </div>
                 <div class="col s4 m4 l4 offset-l2 offset-m2 offset-s2">
-                  <a href="#" class="btn-floating btn-large btn-price blue lighten-1">R$ {{product.saleValue}}</a>
+                  <a href="#" class="btn-floating btn-large btn-price blue lighten-1">
+                      R$ {{product.saleValue}}</a>
                 </div>
               </div>
             </div>

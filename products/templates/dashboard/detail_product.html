@@ -3,45 +3,69 @@
 {% load widget_tweaks %}
 {% block content %}
 
-<div class="row">
-  <div class="col s12 m12 l12">
-    <h5 class="breadcrumbs-title">Detales de </h5>
-    <ol class="breadcrumb">
-      <li>
-        <a href="#">Dashboard</a>
-      </li>
-      <li>
-        <a >Lista Usuários</a>
-      </li>
-      <li class="active">Detales</li>
-    </ol>
-  </div>
-
-  <div class="col s12 m12 l6">
-      <div  class="card">
-
-        <div class="card-image waves-effect waves-block waves-light">
-
-          <img class="activator" src="{{product.imgDefault}}" alt="user bg">
-
+    <div class="row">
+        <div class="col s12 m12 l12">
+            <h5 class="breadcrumbs-title">Detales de {{product}} </h5>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="{% url 'products:list_product' %}">Lista Produtos</a>
+                </li>
+                <li class="active">Detales</li>
+            </ol>
         </div>
-
-        <div class="card-content">
-          <div class="col s4 m4 l4 offset-l2 offset-m2 offset-s2">
-            <a href="#" class="btn-floating btn-large btn-price red darken-3"> <i class="mdi-action-shopping-cart"></i> </a>
-          </div>
-          <div class="col s4 m4 l4 offset-l2 offset-m2 offset-s2">
-            <a href="#" class="btn-floating btn-large btn-price blue lighten-1">R$ {{product.saleValue}}</a>
-          </div>
+        {% if user.nivel == 0 or user.nivel == 1 %}
+            <div class="col s12 m4 l4 graphic-margin-top">
+                <a class="btn waves-effect waves-light yellow darken-2 right graphic-btn-full" href="#">
+                    <i class="mdi-action-assignment"></i> Adicionar Intens de Produção
+                </a>
+            </div>
+            <div class="col s12 m4 l4 graphic-margin-top">
+                <a class="btn waves-effect waves-light green darken-2 right graphic-btn-full"
+                   href="{% url 'products:imagens' product.pk %}">
+                    <i class="mdi-action-assignment-turned-in"></i> Modificar Imagens
+                </a>
+            </div>
+            <div class="col s12 m4 l4 graphic-margin-top">
+                <a class="btn waves-effect waves-light light-blue darken-2 right graphic-btn-full"
+                   href="#">
+                    <i class="mdi-action-view-list"></i> Modificar Dados do Produto
+                </a>
+            </div>
+        {% endif %}
+        <div class="col s12 m12 l6 graphic-margin-top">
+            <div  class="card">
+                <div class="card-image waves-effect waves-block waves-light">
+                    <img class="activator" src="{{product.imgDefault}}" alt="user bg">
+                </div>
+            </div>
         </div>
+        <div class="col s12 m12 l6 graphic-margin-top">
+            <div class="card">
+                <div class="card-content ">
 
-<!--
+                    <div class="col s12 m12 l12 graphic-margin-bottom">
+                        <p>Descrição do Produto</p>
+                        <h5>{{product.description}}</h5>
+                        <p>Preço</p>
+                        <h4>R$ {{product.saleValue}}</h4>
+                        {% if user.nivel == 0 or user.nivel == 1 %}
+                            <p>Quantidade</p>
+                            <h5>N° {{product.amount}}</h5>
+                        {% endif %}
+                    </div>
+                    <div class="col s3 m3 l3 graphic-margin-bottom right">
+                        <a href="#" class="btn-floating btn-large btn-price red darken-3">
+                            <i class="mdi-action-add-shopping-cart"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--
         <div class="card-content">
-
           <div class="row">
             <div class="col s12 m12 l12">
               <table class="striped">
-
                 <thead>
                   <tr>
                     <th>Cep</th>
@@ -52,7 +76,6 @@
                     <th>Estado</th>
                   </tr>
                 </thead>
-
                 <tbody>
                   {% for add in address  %}
                   <tr>
@@ -69,15 +92,11 @@
                   </tr>
                   {% endfor %}
                 </tbody>
-
               </table>
             </div>
           </div>
-
         </div>
 -->
-
     </div>
-  </div>
-</div>
+
 {% endblock %}

@@ -1,4 +1,4 @@
-#!/home/junior/MEGA/Projetos/graphic_e_commerce/.venv/bin/python3
+#!/home/junior/Documentos/Dev/graphic_e_commerce/.venv/bin/python3
 from django.core import management
 
 if __name__ == "__main__":

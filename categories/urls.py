@@ -1,8 +1,9 @@
-from django.conf.urls import url
+from django.urls import path
 from . import views
 
+app_name = 'catefories'
 urlpatterns = [
-    url(r'^nova-categoria/$', views.create_category, name='new_category'),
-    url(r'^lista-categoria/$', views.list_category, name='list_categories'),
-    url(r'^detalhar-categoria/(?P<pk>\d+)$', views.detail_category, name='detail_category'),
+    path('nova-categoria/', views.create_category, name='new_category'),
+    path('lista-categoria/', views.list_category, name='list_categories'),
+    path('detalhar-categoria/<int:pk>', views.detail_category, name='detail_category'),
 ]
