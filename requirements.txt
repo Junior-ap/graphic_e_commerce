@@ -11,5 +11,5 @@ python-decouple==3.0
 pytz==2017.2
 six==1.10.0
 static3==0.7.0
-urllib3==1.21.1
+urllib3==1.24.2
 virtualenv==15.1.0
