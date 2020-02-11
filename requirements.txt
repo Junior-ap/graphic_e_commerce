@@ -1,7 +1,7 @@
 cloudinary==1.8.0
 dj-database-url==0.4.2
 dj-static==0.0.6
-Django==2.0.2
+Django==2.2.10
 django-widget-tweaks==1.4.1
 gunicorn==19.7.1
 mock==2.0.0
